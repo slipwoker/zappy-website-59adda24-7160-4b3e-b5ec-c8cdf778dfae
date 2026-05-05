@@ -1,0 +1,83 @@
+# המרכז לרפואה סינית בכפר סבא — Generative Engine Optimization Map
+
+> A Traditional Chinese Medicine center based in Kfar Saba, Israel, specializing in pain management, orthopedics, cartilage degeneration, lower back pain, and sports injuries. The clinic also offers fertility treatments for both men and women, women's health services, stress relief, and treatments for infants and children. The center positions itself as a comprehensive, holistic healing destination with a strong focus on generating consultation calls and converting them into ongoing treatments, while building dominant online visibility through SEO and AI search engines.
+
+---
+
+## Pages
+
+### בית
+https://example.com
+רפואה סינית מסורתית בכפר סבא לכאבי גב, פריון, סטרס וילדים. דיקור סיני לכאבי גב בכפר סבא עם תוצאות מוכחות. קבע ייעוץ ראשוני עוד היום!
+
+### כאב ואורתופדיה
+https://example.com/pain-orthopedics
+סובלים מכאבי גב, שחיקת סחוס או פציעות ספורט? דיקור סיני לשחיקת סחוס ולכאבי גב בכפר סבא מציע הקלה אמיתית. טפלו בשורש הבעיה — לא רק בסימפטום!
+
+### פוריות ובריאות האישה
+https://example.com/fertility-womens-health
+טיפול פריון טבעי בדיקור סיני לנשים וגברים, כולל שחלות פוליציסטיות ובריאות האישה. גישה הוליסטית שמשלימה טיפולים רפואיים קונבנציונליים. דברו איתנו היום!
+
+### סטרס, תינוקות וילדים
+https://example.com/stress-children
+רפואה משלימה לסטרס וחרדה, טיפולי דיקור סיני לתינוקות וילדים בגישה עדינה ובטוחה. חזרו לאיזון, לשינה טובה ולחיים רגועים. גלו איך אנחנו יכולים לעזור!
+
+### צור קשר
+https://example.com/contact
+רוצים לדעת איך דיקור סיני בכפר סבא יכול לשנות את חייכם? השאירו פרטים ומטפל מוסמך יחזור אליכם לייעוץ ראשוני. אל תחכו — הגוף שלכם לא צריך לסבול יותר!
+
+## Legal & Policy
+
+### Privacy Policy
+https://example.com/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://example.com/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://example.com/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## How to Contact Us
+
+- (No contact details configured yet.)
+
+### Contact form
+- URL: https://example.com/contact
+- Endpoint: https://example.com/api/email/contact-form
+- Method: POST
+- Content-Type: application/json
+- Fields:
+  - `name` (text, required)
+  - `email` (email, required)
+  - `phone` (tel, required)
+  - `message` (textarea)
+  - `privacy_consent` (checkbox, required)
+
+---
+
+# Business Context (for LLM understanding)
+
+## About המרכז לרפואה סינית בכפר סבא
+A Traditional Chinese Medicine center based in Kfar Saba, Israel, specializing in pain management, orthopedics, cartilage degeneration, lower back pain, and sports injuries. The clinic also offers fertility treatments for both men and women, women's health services, stress relief, and treatments for infants and children. The center positions itself as a comprehensive, holistic healing destination with a strong focus on generating consultation calls and converting them into ongoing treatments, while building dominant online visibility through SEO and AI search engines.
+
+## Target Audience
+- אנשים הסובלים מכאבים ובעיות אורתופדיות, זוגות המתמודדים עם בעיות פריון, נשים המחפשות טיפול בבריאות האישה, אנשים הסובלים מסטרס, הורים לתינוקות וילדים
+- מטופלים עם כאבים ובעיות אורתופדיות
+- זוגות עם קשיי פריון
+- נשים המחפשות טיפולי בריאות האישה
+
+## Industry
+בריאות ורפואה משלימה
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt

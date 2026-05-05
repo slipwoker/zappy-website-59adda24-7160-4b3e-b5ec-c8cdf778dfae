@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>שקט נפשי לכל המשפחה — המרכז לרפואה סינית בכפר סבא</title>
+    <meta name="description" content="רפואה משלימה לסטרס וחרדה, טיפולי דיקור סיני לתינוקות וילדים בגישה עדינה ובטוחה. חזרו לאיזון, לשינה טובה ולחיים רגועים. גלו איך אנחנו יכולים לעזור!">
+    <meta name="keywords" content="רפואה משלימה לסטרס וחרדה, דיקור סיני לילדים ותינוקות, טיפול טבעי בחרדה כפר סבא, רפואה סינית לשינה, סטרס רפואה סינית">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '59adda24-7160-4b3e-b5ec-c8cdf778dfae',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="שקט נפשי לכל המשפחה — המרכז לרפואה סינית בכפר סבא">
+    <meta property="og:description" content="רפואה משלימה לסטרס וחרדה, טיפולי דיקור סיני לתינוקות וילדים בגישה עדינה ובטוחה. חזרו לאיזון, לשינה טובה ולחיים רגועים. גלו איך אנחנו יכולים לעזור!">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="שקט נפשי לכל המשפחה — המרכז לרפואה סינית בכפר סבא">
+    <meta name="twitter:description" content="רפואה משלימה לסטרס וחרדה, טיפולי דיקור סיני לתינוקות וילדים בגישה עדינה ובטוחה. חזרו לאיזון, לשינה טובה ולחיים רגועים. גלו איך אנחנו יכולים לעזור!">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo.webp" alt="המרכז לרפואה סינית בכפר סבא" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/pain-orthopedics">כאב ואורתופדיה</a></li><li><a href="/fertility-womens-health">פוריות ובריאות האישה</a></li><li><a href="/stress-children">סטרס, תינוקות וילדים</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main>
+    <section class="stress-children-intro-section" data-layout-spec="סטרס, תינוקות וילדים-intro" dir="rtl">
+  <!-- Decorative botanical motif -->
+  <div class="sci-botanical-decor" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="220" height="200">
+      <path d="M110,180 Q80,140 60,100 Q40,60 70,30 Q90,10 110,40 Q130,10 150,30 Q180,60 160,100 Q140,140 110,180Z" stroke="#7A8B63" stroke-width="1.5" fill="none" opacity="0.10"></path>
+      <path d="M110,180 Q95,150 85,120 Q75,90 90,65 Q100,48 110,60 Q120,48 130,65 Q145,90 135,120 Q125,150 110,180Z" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.08"></path>
+      <path d="M40,160 Q60,130 80,110 Q100,90 110,40" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.07"></path>
+      <circle cx="110" cy="40" r="5" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.10"></circle>
+    </svg>
+  </div>
+
+  <div class="sci-container">
+    <div class="sci-grid">
+
+      <!-- Image column (START = LEFT in RTL) -->
+      <figure class="sci-image-col">
+        <div class="sci-image-wrapper">
+          <img data-placeholder="stress-children-intro-image-1" data-context="A warm, sunlit Traditional Chinese Medicine clinic room in Israel. A caring female practitioner gently treats a relaxed young child (toddler or infant) while a reassured mother watches nearby. Soft natural light, warm cream and sage tones, acupuncture tools visible but non-threatening. The mood is calm, safe, and nurturing — conveying holistic family care." width="600" height="450" src="/assets/site-stress-children-intro-image-1.webp" alt="טיפול ברפואה סינית לתינוקות וילדים — מרכז רפואה סינית בכפר סבא">
+        </div>
+        <!-- Floating tag -->
+        <div class="sci-float-badge" aria-hidden="false">
+          <span class="sci-badge-icon"><i class="fa fa-leaf"></i></span>
+          <span class="sci-badge-text">טיפול עדין ובטוח לכל גיל</span>
+        </div>
+      </figure>
+
+      <!-- Content column (END = RIGHT in RTL) -->
+      <div class="sci-content-col">
+        <div class="sci-eyebrow">
+          <span class="sci-eyebrow-line"></span>
+          <span class="sci-eyebrow-text">סטרס · תינוקות · ילדים</span>
+        </div>
+
+        <h1 class="sci-heading">שקט, איזון ובריאות<br>לכל המשפחה</h1>
+
+        <p class="sci-lead">הגוף והנפש שלנו מחוברים — בכל גיל. ברפואה הסינית המסורתית אנו מטפלים בשורש הבעיה ולא רק בסימפטומים: מסטרס וחרדה אצל מבוגרים, דרך קשיי שינה ועצבנות, ועד לטיפולים עדינים לתינוקות וילדים. המרכז לרפואה סינית בכפר סבא מציע גישה הוליסטית, חמה ומותאמת אישית לכל בן משפחה.</p>
+
+        <!-- Supporting topics strip -->
+        <ul class="sci-topics-list">
+          <li class="sci-topic-item">
+            <span class="sci-topic-icon"><i class="fa fa-spa"></i></span>
+            <span class="sci-topic-label">הפחתת סטרס וחרדה</span>
+          </li>
+          <li class="sci-topic-item">
+            <span class="sci-topic-icon"><i class="fa fa-moon"></i></span>
+            <span class="sci-topic-label">שיפור שינה ומנוחה</span>
+          </li>
+          <li class="sci-topic-item">
+            <span class="sci-topic-icon"><i class="fa fa-child"></i></span>
+            <span class="sci-topic-label">טיפול בתינוקות וילדים</span>
+          </li>
+          <li class="sci-topic-item">
+            <span class="sci-topic-icon"><i class="fa fa-heart"></i></span>
+            <span class="sci-topic-label">בריאות רגשית ונפשית</span>
+          </li>
+        </ul>
+
+        <div class="sci-cta-row">
+          <a href="/contact" class="sci-btn-primary">לייעוץ ראשוני ללא עלות</a>
+          <a href="tel:[business_phone]" class="sci-btn-ghost"><i class="fa fa-phone"></i> התקשרו עכשיו</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom wave divider transitioning to next section -->
+  <div class="sci-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,72 L0,32 Q80,18 160,28 T320,22 Q400,16 480,26 T640,20 Q720,14 800,24 T960,18 Q1040,12 1120,22 T1200,16 L1200,72 Z" fill="#F5F0E8"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="stress-children-audiences-section" data-layout-spec="סטרס, תינוקות וילדים-audiences" dir="rtl">
+  <div class="sca-container">
+    <div class="sca-header">
+      <span class="sca-eyebrow">הטיפול מותאם לכם</span>
+      <h2 class="sca-title">לכל גיל ואתגר – טיפול שמתאים בדיוק לך</h2>
+      <p class="sca-subtitle">ברפואה הסינית, הטיפול אינו אחיד לכולם. כל מטופל מגיע עם רגישויות, צרכים ואתגרים ייחודיים – ואנו מתאימים את הגישה בהתאם לגיל, למצב הגופני ולמטרת הטיפול.</p>
+    </div>
+
+    <div class="sca-cards-grid">
+
+      <!-- Card 1: Adults Under Stress -->
+      <article class="sca-card">
+        <div class="sca-card-icon-wrap sca-icon-stress">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="32" cy="20" r="10"></circle>
+            <path d="M32 30 C20 34 16 44 18 54"></path>
+            <path d="M32 30 C44 34 48 44 46 54"></path>
+            <path d="M24 54 Q32 50 40 54"></path>
+            <path d="M10 18 Q6 14 8 10"></path>
+            <path d="M54 18 Q58 14 56 10"></path>
+            <path d="M8 26 Q4 24 4 20"></path>
+            <path d="M56 26 Q60 24 60 20"></path>
+          </svg>
+        </div>
+        <div class="sca-card-body">
+          <h3 class="sca-card-title">מבוגרים תחת לחץ וסטרס</h3>
+          <p class="sca-card-text">סטרס כרוני, חרדה, עייפות מצטברת ושינה לקויה משפיעים על כל מערכות הגוף. הטיפול ברפואה הסינית ובדיקור מכוון לאיזון מחדש של מערכת העצבים, להפחתת מתח עמוק ולחידוש האנרגיה – בלי תופעות לוואי ובלי תלות בתרופות.</p>
+          <ul class="sca-card-list">
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>הפחתת חרדה ועצבנות</span></li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>שיפור איכות השינה</span></li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>חיזוק חיוניות ואנרגיה</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Card 2: Infants -->
+      <article class="sca-card">
+        <div class="sca-card-icon-wrap sca-icon-infant">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="32" cy="16" r="8"></circle>
+            <path d="M20 32 Q20 24 32 24 Q44 24 44 32"></path>
+            <path d="M22 32 Q18 40 20 50 Q26 56 32 56 Q38 56 44 50 Q46 40 42 32"></path>
+            <path d="M26 40 Q32 44 38 40"></path>
+            <path d="M14 36 Q10 34 12 30"></path>
+            <path d="M50 36 Q54 34 52 30"></path>
+          </svg>
+        </div>
+        <div class="sca-card-body">
+          <h3 class="sca-card-title">תינוקות – טיפול עדין ומותאם</h3>
+          <p class="sca-card-text">תינוקות מגיבים בצורה מופלאה לטיפולי רפואה סינית מותאמים לגילם. אנו משתמשים בטכניקות עדינות במיוחד – ללא דיקור חודרני – לטיפול בקוליק, בעיות שינה, עצבנות, עיכוב התפתחותי ובעיות עיכול, תוך שמירה מלאה על ביטחון ורוגע התינוק.</p>
+          <ul class="sca-card-list">
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>הקלה בקוליק ובכי מוגזם</span></li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>שיפור שינה ורוגע</span></li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>טכניקות עדינות ובטוחות</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Card 3: Children -->
+      <article class="sca-card">
+        <div class="sca-card-icon-wrap sca-icon-child">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="32" cy="14" r="8"></circle>
+            <path d="M22 28 Q22 22 32 22 Q42 22 42 28 L44 46 Q38 52 32 52 Q26 52 20 46 Z"></path>
+            <path d="M20 46 L14 58"></path>
+            <path d="M44 46 L50 58"></path>
+            <path d="M26 34 L38 34"></path>
+            <path d="M28 40 Q32 44 36 40"></path>
+          </svg>
+        </div>
+        <div class="sca-card-body">
+          <h3 class="sca-card-title">ילדים – בריאות הוליסטית לכל גיל</h3>
+          <p class="sca-card-text">ילדים הם לא מבוגרים קטנים – הגוף שלהם פועל אחרת ודורש גישה מותאמת. הטיפול ברפואה סינית לילדים מסייע במגוון אתגרים: חיזוק מערכת החיסון, הפרעות שינה, קשיי ריכוז, כאבי בטן, אלרגיות ועוד – בצורה שמכבדת את הרגישות הייחודית של כל ילד.</p>
+          <ul class="sca-card-list">
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>חיזוק מערכת חיסון</span></li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>הפרעות שינה וריכוז</span></li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i><span>כאבי בטן ואלרגיות</span></li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="sca-cta-row">
+      <p class="sca-cta-text">רוצים לדעת אם הטיפול מתאים לכם? צרו קשר לייעוץ ראשוני ללא התחייבות.</p>
+      <a href="/contact" class="sca-btn-primary">לתיאום שיחת ייעוץ <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <!-- Bottom divider: dusty blue curved band -->
+  <div class="sca-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,45 Q150,20 300,38 T600,30 Q750,22 900,40 T1200,32 L1200,90 Z" fill="#F5F0E8"></path>
+      <path d="M0,90 L0,58 Q200,42 400,55 T800,48 Q1000,42 1200,52 L1200,90 Z" fill="#F5F0E8" opacity="0.6"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="stress-children-principles-section" data-layout-spec="סטרס, תינוקות וילדים-principles" dir="rtl">
+  <!-- Decorative botanical motif -->
+  <svg class="scp-botanical-decor" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="var(--secondary)" stroke-width="1.2" opacity="0.10">
+      <path d="M180,20 Q160,60 140,80 Q120,100 100,120"></path>
+      <path d="M160,10 Q150,40 130,65 Q115,85 95,105"></path>
+      <path d="M140,30 Q155,55 145,80 Q135,100 120,115"></path>
+      <ellipse cx="145" cy="72" rx="18" ry="10" transform="rotate(-30 145 72)"></ellipse>
+      <ellipse cx="125" cy="58" rx="14" ry="8" transform="rotate(-50 125 58)"></ellipse>
+    </g>
+  </svg>
+
+  <div class="scp-container">
+    <!-- Header -->
+    <header class="scp-header">
+      <span class="scp-eyebrow">הגישה שלנו</span>
+      <h2 class="scp-title">ארבעה עקרונות שמנחים כל טיפול</h2>
+      <p class="scp-subtitle">רפואה סינית לסטרס, תינוקות וילדים מתחילה מהקשבה אמיתית — לא מפרוטוקול. כל משפחה מגיעה עם סיפור שונה, וכל ילד ראוי לתשומת לב שמתאימה בדיוק לו.</p>
+    </header>
+
+    <!-- Principles tiles -->
+    <div class="scp-tiles-row">
+
+      <article class="scp-tile scp-tile--1">
+        <div class="scp-tile-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="24" cy="24" r="20" stroke="var(--secondary)" stroke-width="1.5" fill="none"></circle>
+            <path d="M24 14 Q28 20 24 26 Q20 20 24 14Z" fill="var(--secondary)" opacity="0.6"></path>
+            <path d="M17 20 Q22 24 22 30 Q16 27 17 20Z" fill="var(--secondary)" opacity="0.4"></path>
+            <path d="M31 20 Q26 24 26 30 Q32 27 31 20Z" fill="var(--secondary)" opacity="0.4"></path>
+            <line x1="24" y1="26" x2="24" y2="34" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <div class="scp-tile-content">
+          <h3 class="scp-tile-title">הקשבה לפני הכל</h3>
+          <p class="scp-tile-text">כל פגישה מתחילה בשיחה רגועה ומעמיקה. אנחנו מבינים את ההיסטוריה, את הרגשות ואת הדפוסים — לפני שמגיעים לכל טיפול.</p>
+        </div>
+        <div class="scp-tile-number" aria-hidden="true">01</div>
+      </article>
+
+      <article class="scp-tile scp-tile--2">
+        <div class="scp-tile-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M24 8 C14 8 8 16 8 24 C8 32 14 40 24 40 C34 40 40 32 40 24" stroke="var(--secondary)" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+            <path d="M32 8 L40 8 L40 16" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="24" cy="24" r="5" fill="var(--secondary)" opacity="0.5"></circle>
+            <line x1="24" y1="19" x2="24" y2="14" stroke="var(--secondary)" stroke-width="1.2" stroke-linecap="round"></line>
+            <line x1="24" y1="29" x2="24" y2="34" stroke="var(--secondary)" stroke-width="1.2" stroke-linecap="round"></line>
+            <line x1="19" y1="24" x2="14" y2="24" stroke="var(--secondary)" stroke-width="1.2" stroke-linecap="round"></line>
+            <line x1="29" y1="24" x2="34" y2="24" stroke="var(--secondary)" stroke-width="1.2" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <div class="scp-tile-content">
+          <h3 class="scp-tile-title">טיפול מותאם אישית</h3>
+          <p class="scp-tile-text">אין שני ילדים דומים, ואין שני מבוגרים עם אותו סטרס. הפרוטוקול שלנו נבנה מחדש לכל מטופל — בגיל כל שהוא.</p>
+        </div>
+        <div class="scp-tile-number" aria-hidden="true">02</div>
+      </article>
+
+      <article class="scp-tile scp-tile--3">
+        <div class="scp-tile-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M24 10 C18 10 14 15 14 20 C14 28 24 38 24 38 C24 38 34 28 34 20 C34 15 30 10 24 10Z" stroke="var(--secondary)" stroke-width="1.5" fill="none"></path>
+            <circle cx="24" cy="20" r="4" fill="var(--secondary)" opacity="0.5"></circle>
+            <path d="M18 36 Q14 40 10 40" stroke="var(--secondary)" stroke-width="1.2" stroke-linecap="round" opacity="0.5"></path>
+            <path d="M30 36 Q34 40 38 40" stroke="var(--secondary)" stroke-width="1.2" stroke-linecap="round" opacity="0.5"></path>
+          </svg>
+        </div>
+        <div class="scp-tile-content">
+          <h3 class="scp-tile-title">רגישות משפחתית</h3>
+          <p class="scp-tile-text">כשמגיעים עם ילד, כל המשפחה חלק מהתהליך. אנחנו יוצרים סביבה בטוחה ורגועה שבה הורים וילדים מרגישים נוחות מהרגע הראשון.</p>
+        </div>
+        <div class="scp-tile-number" aria-hidden="true">03</div>
+      </article>
+
+      <article class="scp-tile scp-tile--4">
+        <div class="scp-tile-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 24 Q10 14 20 12 Q28 10 32 16" stroke="var(--secondary)" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+            <path d="M38 24 Q38 34 28 36 Q20 38 16 32" stroke="var(--secondary)" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+            <circle cx="32" cy="16" r="3.5" fill="var(--secondary)" opacity="0.5"></circle>
+            <circle cx="16" cy="32" r="3.5" fill="var(--secondary)" opacity="0.5"></circle>
+            <path d="M22 24 L26 24" stroke="var(--secondary)" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <div class="scp-tile-content">
+          <h3 class="scp-tile-title">ליווי לאורך זמן</h3>
+          <p class="scp-tile-text">שינוי אמיתי לוקח זמן. אנחנו מלווים את המטופלים שלנו לאורך כל הדרך — ממפגש ראשון ועד לתוצאות שמחזיקות.</p>
+        </div>
+        <div class="scp-tile-number" aria-hidden="true">04</div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom diagonal fade divider -->
+  <div class="scp-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,30 Q300,10 600,25 Q900,40 1200,15 L1200,70 Z" fill="#F5F0E8"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="stress-children-showcase-section" data-layout-spec="סטרס, תינוקות וילדים-showcase" dir="rtl">
+  <!-- Decorative botanical motif -->
+  <div class="showcase-botanical-deco" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg" width="180" height="160">
+      <path d="M90 150 Q60 120 30 90 Q10 70 20 40 Q30 15 55 25 Q75 35 80 60 Q85 35 100 20 Q125 5 145 25 Q165 45 150 75 Q135 105 90 150Z" stroke="#7A8B63" stroke-width="1.2" fill="none" opacity="0.13"></path>
+      <path d="M90 150 Q90 110 90 80" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.10"></path>
+      <path d="M55 80 Q70 90 90 90" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.09"></path>
+      <path d="M125 70 Q110 83 90 83" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.09"></path>
+    </svg>
+  </div>
+
+  <div class="showcase-container">
+    <!-- Header text block -->
+    <div class="showcase-header">
+      <span class="showcase-label">האווירה שלנו</span>
+      <h2 class="showcase-title">מרחב שקט שבו כל ילד ומבוגר מרגיש בטוח</h2>
+      <p class="showcase-desc">במרכז לרפואה סינית בכפר סבא יצרנו סביבת טיפול חמה ומזמינה — לתינוקות, לילדים ולהורים. הגישה שלנו לטיפול בסטרס, בחרדה ובבעיות ילדים משלבת רפואה משלימה עדינה עם קשב אנושי אמיתי. כל ביקור מתחיל בשיחה ומסתיים בתחושת הקלה.</p>
+    </div>
+
+    <!-- Gallery grid: one large image on right, two stacked on left -->
+    <div class="showcase-gallery">
+      <!-- Large image START (right) -->
+      <figure class="showcase-img-main">
+        <div class="showcase-img-wrapper showcase-img-wrapper--main">
+          <img data-placeholder="stress-children-showcase-image-1" data-context="A serene, warmly lit Traditional Chinese Medicine treatment room in Kfar Saba Israel. Soft natural light through sheer curtains, a calm treatment table with warm linen, potted greenery, wooden accents. A practitioner gently interacts with a young child (age 3-6) lying comfortably on the table while a reassured parent watches nearby. Warm cream and sage color palette, soft-focus lifestyle photography." width="600" height="720" src="/assets/site-stress-children-showcase-image-1.webp" alt="חדר טיפולים שקט ברפואה סינית עם ילד ומטפל">
+        </div>
+        <div class="showcase-img-backplate showcase-img-backplate--main" aria-hidden="true"></div>
+      </figure>
+
+      <!-- Two stacked images END (left) -->
+      <div class="showcase-img-stack">
+        <figure class="showcase-img-secondary">
+          <div class="showcase-img-wrapper showcase-img-wrapper--secondary">
+            <img data-placeholder="stress-children-showcase-image-2" data-context="A warm and intimate consultation moment in a Traditional Chinese Medicine clinic. A caring female practitioner in soft neutral clothing sits across from a young mother holding a baby (6-12 months). The practitioner listens attentively, notepad nearby, soft indoor plant in background. Warm natural tones, calm and reassuring atmosphere, soft-focus lifestyle photography." width="480" height="320" src="/assets/site-stress-children-showcase-image-2.webp" alt="שיחת ייעוץ חמה בין מטפלת לאם עם תינוק">
+          </div>
+          <div class="showcase-img-backplate showcase-img-backplate--secondary" aria-hidden="true"></div>
+        </figure>
+
+        <figure class="showcase-img-secondary">
+          <div class="showcase-img-wrapper showcase-img-wrapper--secondary">
+            <img data-placeholder="stress-children-showcase-image-3" data-context="A peaceful moment of a parent and child sitting together in a calm waiting area of a holistic clinic in Israel. Soft cushioned chairs, warm wooden shelves with plants and books, natural light. The child looks relaxed and curious, the parent calm and present. Warm cream and sage palette, soft editorial photography style." width="480" height="320" src="/assets/site-stress-children-showcase-image-3.webp" alt="הורה וילד בפינת המתנה הרגועה של המרכז">
+          </div>
+          <div class="showcase-img-backplate showcase-img-backplate--secondary--lower" aria-hidden="true"></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom cream ribbon divider -->
+  <div class="showcase-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,45 Q100,38 200,48 T400,40 Q500,36 600,44 T800,38 Q900,34 1000,44 Q1080,50 1150,36 Q1175,30 1200,28 L1200,90 Z" fill="#4A3D32"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="stress-children-contact-cta-section" data-layout-spec="סטרס, תינוקות וילדים-contact-cta" dir="rtl">
+  <div class="stress-children-cta-inner">
+    <div class="stress-children-cta-content">
+      <span class="stress-children-cta-eyebrow">רפואה סינית בכפר סבא</span>
+      <h2 class="stress-children-cta-heading">מוכנים לדבר על מה שמטריד אתכם?</h2>
+      <p class="stress-children-cta-text">בין אם מדובר בסטרס, חרדה, הפרעות שינה, או טיפול בתינוקות וילדים — אנחנו כאן להקשיב ולהציע מסלול טיפול אישי ועדין. שיחת ייעוץ ראשונה היא הצעד הראשון לשינוי.</p>
+      <a href="tel:[business_phone]" class="stress-children-cta-btn">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        לתיאום שיחת ייעוץ
+      </a>
+    </div>
+  </div>
+  <svg class="stress-children-cta-decor" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200,20 Q230,40 220,80 Q210,120 240,140 Q270,160 260,200 Q250,240 280,260" stroke="rgba(196,107,78,0.12)" stroke-width="1.5" fill="none"></path>
+    <path d="M220,20 Q200,50 215,90 Q230,130 210,155 Q190,180 205,215 Q220,250 200,275" stroke="rgba(122,139,99,0.10)" stroke-width="1" fill="none"></path>
+    <circle cx="240" cy="140" r="4" fill="rgba(196,107,78,0.15)"></circle>
+    <circle cx="210" cy="155" r="3" fill="rgba(122,139,99,0.12)"></circle>
+    <circle cx="260" cy="200" r="5" fill="rgba(196,107,78,0.10)"></circle>
+  </svg>
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-main">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Company Info -->
+        <div class="footer-col footer-col--brand">
+          <div class="footer-logo-wrap">
+            <img src="/assets/logo.webp" alt="המרכז לרפואה סינית בכפר סבא" class="logo">
+          </div>
+          <p class="footer-tagline">המרכז לרפואה סינית בכפר סבא מציע טיפולים מקצועיים ומותאמים אישית לכאב, פוריות, בריאות האישה ורווחה כללית — מתוך גישה הוליסטית, חמה ומבוססת ניסיון.</p>
+          <div class="footer-social">
+            <a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col footer-col--links">
+          <h3 class="footer-heading">ניווט מהיר</h3>
+          <ul class="footer-nav">
+            <li><a href="/">בית</a></li>
+            <li><a href="/pain-orthopedics">כאב ואורתופדיה</a></li>
+            <li><a href="/fertility-womens-health">פוריות ובריאות האישה</a></li>
+            <li><a href="/stress-children">סטרס, תינוקות וילדים</a></li>
+            <li><a href="/contact">צור קשר</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col footer-col--contact">
+          <h3 class="footer-heading">יצירת קשר</h3>
+          <ul class="footer-contact">
+            <li>
+              <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+              <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+            </li>
+            <li>
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+            </li>
+            <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+              <span class="contact-text">[business_address]</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Hours / Extra -->
+        <div class="footer-col footer-col--hours">
+          <h3 class="footer-heading">שעות פעילות</h3>
+          <ul class="footer-hours">
+            <li><a href="/"><span class="hours-day">ראשון – חמישי</span><span class="hours-time">09:00 – 20:00</span></a></li>
+            <li><a href="/"><span class="hours-day">שישי</span><span class="hours-time">09:00 – 14:00</span></a></li>
+            <li><a href="/"><span class="hours-day">שבת</span><span class="hours-time">סגור</span></a></li>
+          </ul>
+          <a href="/contact" class="footer-cta">קבע תור עכשיו</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">© 2026 המרכז לרפואה סינית בכפר סבא. כל הזכויות שמורות.</p>
+        <div class="footer-legal">
+          <a href="/privacy">מדיניות פרטיות</a>
+          <span class="footer-divider">|</span>
+          <a href="/terms">תנאי שימוש</a>
+          <span class="footer-divider">|</span>
+          <a href="/accessibility">נגישות</a>
+          <span class="footer-divider">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>

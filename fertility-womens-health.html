@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>הדרך שלך להורות מתחילה כאן — המרכז לרפואה סינית בכפר סבא</title>
+    <meta name="description" content="טיפול פריון טבעי בדיקור סיני לנשים וגברים, כולל שחלות פוליציסטיות ובריאות האישה. גישה הוליסטית שמשלימה טיפולים רפואיים קונבנציונליים. דברו איתנו היום!">
+    <meta name="keywords" content="טיפול פריון טבעי בדיקור סיני, דיקור סיני לבריאות האישה פריון, שחלות פוליציסטיות, פריון גברים דיקור סיני, בריאות האישה רפואה סינית">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '59adda24-7160-4b3e-b5ec-c8cdf778dfae',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="הדרך שלך להורות מתחילה כאן — המרכז לרפואה סינית בכפר סבא">
+    <meta property="og:description" content="טיפול פריון טבעי בדיקור סיני לנשים וגברים, כולל שחלות פוליציסטיות ובריאות האישה. גישה הוליסטית שמשלימה טיפולים רפואיים קונבנציונליים. דברו איתנו היום!">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="הדרך שלך להורות מתחילה כאן — המרכז לרפואה סינית בכפר סבא">
+    <meta name="twitter:description" content="טיפול פריון טבעי בדיקור סיני לנשים וגברים, כולל שחלות פוליציסטיות ובריאות האישה. גישה הוליסטית שמשלימה טיפולים רפואיים קונבנציונליים. דברו איתנו היום!">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo.webp" alt="המרכז לרפואה סינית בכפר סבא" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/pain-orthopedics">כאב ואורתופדיה</a></li><li><a href="/fertility-womens-health">פוריות ובריאות האישה</a></li><li><a href="/stress-children">סטרס, תינוקות וילדים</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main>
+    <section class="fertility-womens-health-intro-section" data-layout-spec="פוריות ובריאות האישה-intro" dir="rtl">
+
+  <!-- Botanical decorative SVG - top right -->
+  <svg class="fwh-botanical-top" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 180 160" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#7A8B63" stroke-width="1.2" opacity="0.13">
+      <path d="M160,10 Q140,40 120,60 Q100,80 80,100 Q60,120 40,150"></path>
+      <path d="M160,10 Q155,35 145,55 Q135,75 118,88 Q100,102 85,120"></path>
+      <path d="M145,5 Q138,28 128,48 Q115,70 100,85 Q82,102 65,118"></path>
+      <ellipse cx="118" cy="72" rx="18" ry="10" transform="rotate(-35 118 72)"></ellipse>
+      <ellipse cx="100" cy="90" rx="16" ry="9" transform="rotate(-40 100 90)"></ellipse>
+      <ellipse cx="82" cy="108" rx="14" ry="8" transform="rotate(-38 82 108)"></ellipse>
+    </g>
+  </svg>
+
+  <!-- Botanical decorative SVG - bottom left -->
+  <svg class="fwh-botanical-bottom" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 140 130" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#C46B4E" stroke-width="1" opacity="0.09">
+      <path d="M20,130 Q40,100 60,80 Q80,60 100,40 Q115,25 130,10"></path>
+      <ellipse cx="58" cy="82" rx="16" ry="9" transform="rotate(40 58 82)"></ellipse>
+      <ellipse cx="78" cy="62" rx="14" ry="8" transform="rotate(38 78 62)"></ellipse>
+      <ellipse cx="98" cy="44" rx="12" ry="7" transform="rotate(42 98 44)"></ellipse>
+    </g>
+  </svg>
+
+  <div class="fwh-intro-container">
+
+    <!-- Editorial centered text block -->
+    <div class="fwh-editorial-text">
+      <span class="fwh-label-tag">רפואה סינית • פוריות ובריאות האישה</span>
+      <h1 class="fwh-main-title">טיפול מקיף, עדין ואפקטיבי<br>לפוריות ולבריאות האישה</h1>
+      <div class="fwh-title-ornament" aria-hidden="true"></div>
+      <p class="fwh-intro-lead">המרכז לרפואה סינית בכפר סבא מציע מסע טיפולי אישי ושמור לנשים וגברים המחפשים תמיכה בפוריות, בוויסות מחזור, בגיל המעבר ובבריאות האישה בכלל. בדיקור סיני לבריאות האישה ולפריון, אנו מאמינים שכל גוף מדבר בשפה שלו — ותפקידנו להקשיב.</p>
+      <p class="fwh-intro-body">הטיפולים שלנו משלבים דיקור סיני, צמחי מרפא סיניים ועקרונות הרפואה הסינית הקלאסית כדי לאזן את הגוף מבפנים. בין אם את מתמודדת עם שחלות פוליציסטיות, קשיי הריון, כאבי מחזור או שינויים הורמונליים — הטיפול מותאם אישית, בסביבה בטוחה ודיסקרטית לחלוטין.</p>
+    </div>
+
+    <!-- Two-image editorial composition -->
+    <div class="fwh-image-composition">
+
+      <!-- Large image on START (right in RTL) -->
+      <figure class="fwh-img-primary">
+        <img data-placeholder="fertility-womens-health-intro-image-1" data-context="Soft, intimate Traditional Chinese Medicine fertility treatment scene in a warm clinic in Israel. A calm female practitioner gently places acupuncture needles on a woman lying peacefully on a treatment table, surrounded by warm cream and sage green tones, soft natural light filtering through sheer curtains, botanical elements in the background, healing and serene atmosphere." width="620" height="480" src="/assets/site-fertility-womens-health-intro-image-1.webp" alt="טיפול דיקור סיני לפוריות ובריאות האישה במרכז לרפואה סינית בכפר סבא">
+        <figcaption class="fwh-img-caption">טיפול אישי ומותאם לכל מטופלת</figcaption>
+      </figure>
+
+      <!-- Smaller image peeking from END-bottom (left in RTL) -->
+      <figure class="fwh-img-secondary">
+        <img data-placeholder="fertility-womens-health-intro-image-2" data-context="Close-up of a woman holding a delicate blooming flower bud in her cupped hands, symbolizing fertility, new life, and feminine wellness. Warm natural tones, soft bokeh background, cream and terracotta color palette, gentle and hopeful mood, Traditional Chinese Medicine context." width="340" height="280" src="/assets/site-fertility-womens-health-intro-image-2.webp" alt="תקווה ופריחה — סמל הפוריות וחיות הגוף">
+      </figure>
+
+    </div>
+    <!-- End image composition -->
+
+  </div>
+
+  <!-- Bottom scalloped divider transitioning to next section -->
+  <div class="fwh-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,72 L0,38 Q50,28 100,38 Q150,48 200,36 Q250,24 300,36 Q350,48 400,36 Q450,24 500,36 Q550,48 600,36 Q650,24 700,36 Q750,48 800,36 Q850,24 900,36 Q950,48 1000,36 Q1050,24 1100,36 Q1150,48 1200,38 L1200,72 Z" fill="#F5F0E8"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="fertility-womens-health-treatments-section" data-layout-spec="פוריות ובריאות האישה-treatments" dir="rtl">
+  <div class="fwht-container">
+    <div class="fwht-header">
+      <span class="fwht-label">מסלולי טיפול</span>
+      <h2 class="fwht-title">דרכי הריפוי שלנו לפוריות ובריאות האישה</h2>
+      <p class="fwht-subtitle">הרפואה הסינית מתייחסת לכל אישה ולכל זוג כיחידה ייחודית. אנו משלבים דיקור סיני, צמחי מרפא ואיזון אנרגטי כדי לתמוך בכם בדרך לבריאות ולהורות.</p>
+    </div>
+    <div class="fwht-grid">
+      <!-- Card 1: פריון האישה -->
+      <article class="fwht-card">
+        <div class="fwht-card-accent-dot" aria-hidden="true"></div>
+        <div class="fwht-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="16" r="9" stroke="currentColor" stroke-width="1.8"></circle>
+            <path d="M20 25v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M15 30h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M14 10c1.5-3 6.5-3 8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <div class="fwht-card-body">
+          <h3 class="fwht-card-title">פריון האישה</h3>
+          <p class="fwht-card-text">טיפול דיקור סיני לבריאות האישה ופריון מסייע לאיזון מחזור הווסת, שיפור איכות הביציות, ותמיכה בהשתלת העובר. אנו מלווים נשים בתהליכי IVF, IUI וניסיונות הריון טבעיים — עם גישה חמה, סבלנית ומקצועית.</p>
+          <ul class="fwht-card-list">
+            <li><span class="fwht-dot" aria-hidden="true"></span>איזון הורמונלי טבעי</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>תמיכה בטיפולי הפריה</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>שחלות פוליציסטיות (PCOS)</li>
+          </ul>
+        </div>
+      </article>
+      <!-- Card 2: פריון הגבר -->
+      <article class="fwht-card">
+        <div class="fwht-card-accent-dot" aria-hidden="true"></div>
+        <div class="fwht-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="17" cy="20" r="9" stroke="currentColor" stroke-width="1.8"></circle>
+            <path d="M24 13l7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M31 6h-5M31 6v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="fwht-card-body">
+          <h3 class="fwht-card-title">פריון הגבר</h3>
+          <p class="fwht-card-text">טיפול פריון טבעי בדיקור סיני לשיפור פרמטרי הזרע — ריכוז, תנועתיות ומורפולוגיה. הרפואה הסינית מתייחסת לגורמי הלחץ, העייפות הכרונית והחוסר האנרגטי שמשפיעים על פריון הגבר.</p>
+          <ul class="fwht-card-list">
+            <li><span class="fwht-dot" aria-hidden="true"></span>שיפור איכות הזרע</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>חיזוק האנרגיה הכלייתית</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>הפחתת מתח וסטרס</li>
+          </ul>
+        </div>
+      </article>
+      <!-- Card 3: ויסות מחזור והורמונים -->
+      <article class="fwht-card">
+        <div class="fwht-card-accent-dot" aria-hidden="true"></div>
+        <div class="fwht-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 20 Q14 8 20 20 Q26 32 32 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"></path>
+            <circle cx="20" cy="20" r="3" fill="currentColor"></circle>
+            <path d="M20 8v4M20 28v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+            <path d="M10 14l3 2M27 24l3 2M10 26l3-2M27 16l3-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <div class="fwht-card-body">
+          <h3 class="fwht-card-title">ויסות מחזור ואיזון הורמונלי</h3>
+          <p class="fwht-card-text">כאבי מחזור, אי-סדירות, תסמונת קדם-וסתית (PMS) ומעבר לגיל המעבר — כל אלה מגיבים היטב לטיפול בדיקור סיני ובצמחי מרפא סיניים. הטיפול מכוון לשורש חוסר האיזון ולא רק לסימפטום.</p>
+          <ul class="fwht-card-list">
+            <li><span class="fwht-dot" aria-hidden="true"></span>הפחתת כאבי מחזור</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>ויסות מחזור סדיר</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>תמיכה בגיל המעבר</li>
+          </ul>
+        </div>
+      </article>
+      <!-- Card 4: בריאות האישה הכוללת -->
+      <article class="fwht-card">
+        <div class="fwht-card-accent-dot" aria-hidden="true"></div>
+        <div class="fwht-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20 34C20 34 8 26 8 17a8 8 0 0 1 12-6.93A8 8 0 0 1 32 17c0 9-12 17-12 17z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"></path>
+            <path d="M16 18c1 2 2.5 3 4 3s3-1 4-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <div class="fwht-card-body">
+          <h3 class="fwht-card-title">בריאות האישה — מעבר לפריון</h3>
+          <p class="fwht-card-text">בריאות האישה היא הרבה יותר מפריון. אנו מטפלים בכאבי אגן כרוניים, אנדומטריוזיס, תסמונת גיל המעבר, עייפות כרונית ומצבי סטרס — עם ליווי אישי ורגיש לאורך כל הדרך.</p>
+          <ul class="fwht-card-list">
+            <li><span class="fwht-dot" aria-hidden="true"></span>אנדומטריוזיס וכאבי אגן</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>עייפות כרונית ותשישות</li>
+            <li><span class="fwht-dot" aria-hidden="true"></span>חיזוק מערכת החיסון</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <div class="fwht-cta-row">
+      <p class="fwht-cta-text">רוצים לדעת איזה מסלול טיפול מתאים לכם? נשמח לשוחח.</p>
+      <a href="tel:[business_phone]" class="fwht-btn-primary">
+        <i class="fa fa-phone" aria-hidden="true"></i>
+        לשיחת ייעוץ חינם
+      </a>
+    </div>
+  </div>
+  <!-- Bottom Divider: warm cream-to-olive curved transition -->
+  <div class="fwht-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,38 Q150,20 300,32 Q450,44 600,22 Q750,4 900,28 Q1050,48 1200,30 L1200,70 Z" fill="#F5F0E8"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="fertility-womens-health-reassurance-section" data-layout-spec="פוריות ובריאות האישה-reassurance" dir="rtl">
+  <!-- Decorative botanical motif -->
+  <div class="fwhr-botanical-decor" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg" width="180" height="220">
+      <path d="M90,200 Q60,160 40,120 Q20,80 50,50 Q70,30 90,60" stroke="#7A8B63" stroke-width="1.5" fill="none" opacity="0.12"></path>
+      <path d="M90,200 Q120,155 145,115 Q165,80 135,52 Q115,32 90,60" stroke="#7A8B63" stroke-width="1.5" fill="none" opacity="0.10"></path>
+      <ellipse cx="50" cy="50" rx="22" ry="14" transform="rotate(-30 50 50)" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.10"></ellipse>
+      <ellipse cx="135" cy="52" rx="22" ry="14" transform="rotate(30 135 52)" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.09"></ellipse>
+      <ellipse cx="90" cy="30" rx="18" ry="11" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.08"></ellipse>
+    </svg>
+  </div>
+
+  <div class="fwhr-container">
+    <!-- Two-column layout: content (start/right) + image (end/left) -->
+    <div class="fwhr-inner">
+
+      <!-- Content Column -->
+      <div class="fwhr-content">
+        <span class="fwhr-label">הגישה שלנו</span>
+        <h2 class="fwhr-heading">טיפול שמתחיל בהקשבה,<br>ומלווה אתכן לאורך הדרך</h2>
+        <p class="fwhr-intro">אנחנו מאמינים שכל אישה ראויה לטיפול מותאם אישית, מכבד ומלא תקווה. הרפואה הסינית מציעה מענה הוליסטי לפוריות ולבריאות האישה — בשיתוף פעולה עם הטיפול הקונבנציונלי ובאהבה אמיתית לתהליך.</p>
+
+        <!-- Reassurance Blocks -->
+        <div class="fwhr-blocks">
+
+          <div class="fwhr-block">
+            <div class="fwhr-block-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5" fill="none"></circle>
+                <path d="M12 20 Q16 14 20 20 Q24 26 28 20" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"></path>
+                <circle cx="20" cy="11" r="2.5" fill="currentColor" opacity="0.6"></circle>
+              </svg>
+            </div>
+            <div class="fwhr-block-content">
+              <h3 class="fwhr-block-title">תכנית טיפול אישית לכל מטופלת</h3>
+              <p class="fwhr-block-text">אין שתי נשים דומות — ולכן אין שני טיפולים זהים. לאחר אבחון מעמיק, נבנה יחד תכנית מותאמת שמתייחסת לכל מחזור, לכל שלב ולכל צורך גופני ורגשי.</p>
+            </div>
+          </div>
+
+          <div class="fwhr-divider" aria-hidden="true"></div>
+
+          <div class="fwhr-block">
+            <div class="fwhr-block-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                <path d="M20 8 C14 8 9 13 9 19 C9 27 20 34 20 34 C20 34 31 27 31 19 C31 13 26 8 20 8Z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"></path>
+                <path d="M15 19 L18.5 22.5 L25 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div class="fwhr-block-content">
+              <h3 class="fwhr-block-title">תקשורת מכבדת ומרחב בטוח</h3>
+              <p class="fwhr-block-text">הדרך לפוריות יכולה להיות מאתגרת רגשית. אצלנו תמצאו מרחב קשוב, ללא שיפוטיות, שבו ניתן לשוחח בפתיחות על כל שאלה — גם הכי אינטימית.</p>
+            </div>
+          </div>
+
+          <div class="fwhr-divider" aria-hidden="true"></div>
+
+          <div class="fwhr-block">
+            <div class="fwhr-block-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                <path d="M8 20 Q8 10 20 10 Q32 10 32 20" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"></path>
+                <path d="M8 20 Q8 32 20 32 Q32 32 32 20" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.45"></path>
+                <path d="M14 20 Q17 15 20 20 Q23 25 26 20" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"></path>
+                <circle cx="20" cy="20" r="2.2" fill="currentColor"></circle>
+              </svg>
+            </div>
+            <div class="fwhr-block-content">
+              <h3 class="fwhr-block-title">תמיכה משלימה לצד הרפואה המערבית</h3>
+              <p class="fwhr-block-text">דיקור סיני לבריאות האישה ולפריון עובד בהרמוניה עם טיפולי IVF, IUI וכל פרוטוקול רפואי אחר. אנחנו מתאמים, לא מחליפים — ומגבירים את סיכויי ההצלחה שלכן.</p>
+            </div>
+          </div>
+
+        </div>
+        <!-- End Reassurance Blocks -->
+
+        <a href="#contact" class="fwhr-cta-btn">
+          <span>לשיחת ייעוץ ראשונה</span>
+          <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+            <path d="M15 10 L5 10 M10 5 L5 10 L10 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+      <!-- End Content Column -->
+
+      <!-- Image Column -->
+      <div class="fwhr-image-col">
+        <div class="fwhr-image-wrapper">
+          <img data-placeholder="fertility-womens-health-reassurance-image-1" data-context="A serene, warmly lit traditional Chinese medicine treatment room in Kfar Saba. A calm, professional female practitioner in soft linen clothing sits beside a treatment table, speaking gently with a patient in a reassuring, intimate setting. Warm neutral tones, natural light, subtle botanical elements, premium and emotionally supportive atmosphere. No clinical coldness — soft textures, wooden elements, and a sense of safety and trust." width="560" height="680" src="/assets/site-fertility-womens-health-reassurance-image-1.webp" alt="מרכז לרפואה סינית בכפר סבא — טיפול מותאם אישית לבריאות האישה ופוריות" class="fwhr-main-image">
+          <!-- Floating accent card -->
+          <div class="fwhr-accent-card">
+            <div class="fwhr-accent-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+                <path d="M16 4 C10 4 6 9 6 14 C6 21 16 28 16 28 C16 28 26 21 26 14 C26 9 22 4 16 4Z" stroke="currentColor" stroke-width="1.5" fill="none"></path>
+                <path d="M11 14 L14.5 17.5 L21 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <div class="fwhr-accent-text">
+              <strong>ליווי אישי</strong>
+              <span>לאורך כל הדרך</span>
+            </div>
+          </div>
+          <!-- Decorative circle -->
+          <div class="fwhr-deco-circle" aria-hidden="true"></div>
+        </div>
+      </div>
+      <!-- End Image Column -->
+
+    </div>
+  </div>
+
+  <!-- Bottom ribbon divider transitioning to stories section -->
+  <div class="fwhr-ribbon-divider" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,38 Q120,22 240,34 T480,28 Q600,22 720,32 T960,26 Q1080,20 1200,30 T1440,24 L1440,70 Z" fill="#E8E4DC"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="fertility-womens-health-success-stories-section" data-layout-spec="פוריות ובריאות האישה-success-stories" dir="rtl">
+
+  <!-- Decorative botanical motif -->
+  <svg class="fwh-ss-botanical" aria-hidden="true" data-no-icon-edit="true" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M180,20 Q140,60 100,80 Q60,100 20,160" stroke="#7A8B63" stroke-width="1.5" fill="none" opacity="0.12"></path>
+    <path d="M160,10 Q130,50 110,90 Q90,130 70,170" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.08"></path>
+    <circle cx="100" cy="80" r="6" fill="#7A8B63" opacity="0.10"></circle>
+    <circle cx="60" cy="100" r="4" fill="#7A8B63" opacity="0.08"></circle>
+    <circle cx="130" cy="55" r="5" fill="#7A8B63" opacity="0.09"></circle>
+  </svg>
+
+  <div class="fwh-ss-container">
+
+    <!-- Section Header -->
+    <header class="fwh-ss-header">
+      <span class="fwh-ss-label">סיפורי הצלחה</span>
+      <h2 class="fwh-ss-title">נשים שמצאו את דרכן חזרה לעצמן</h2>
+      <p class="fwh-ss-subtitle">כל טיפול מתחיל בשיחה אחת — ומתפתח לתהליך עמוק של ריפוי, בהירות ותמיכה מתמשכת. אלו הן חוויות אמיתיות של נשים שבחרו ברפואה הסינית כחלק מהמסע שלהן לבריאות ופוריות.</p>
+    </header>
+
+    <!-- Mosaic Layout -->
+    <div class="fwh-ss-mosaic">
+
+      <!-- Large story panel — END side (left in RTL) -->
+      <article class="fwh-ss-panel fwh-ss-panel--large">
+        <div class="fwh-ss-panel-image-wrap">
+          <img data-placeholder="fertility-womens-health-success-stories-image-1" data-context="A warm, intimate portrait of a serene Israeli woman in her 30s sitting in a calm clinic waiting room with soft natural light, plants in the background, warm beige and sage tones, conveying peace, hope, and healing — suitable for a Traditional Chinese Medicine fertility and women\" s="" health="" clinic="" in="" kfar="" saba'="" width="600" height="400" src="/assets/site-fertility-womens-health-success-stories-image-1.webp" alt="אישה בשלווה במרכז לרפואה סינית בכפר סבא" class="fwh-ss-image">
+          <div class="fwh-ss-image-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="fwh-ss-panel-content">
+          <div class="fwh-ss-quote-mark" aria-hidden="true">“</div>
+          <blockquote class="fwh-ss-blockquote">
+            <p>אחרי שנתיים של טיפולים קונבנציונליים שלא הובילו לשום מקום, הגעתי למרכז עם הרבה ספקנות ועייפות. מהפגישה הראשונה הרגשתי שמישהו באמת מקשיב לי — לא רק לתוצאות הבדיקות, אלא לכל מה שאני חווה. אחרי ארבעה חודשים של דיקור סיני לבריאות האישה ופריון, קיבלתי את הבשורה שחיכיתי לה.</p>
+          </blockquote>
+          <footer class="fwh-ss-panel-footer">
+            <div class="fwh-ss-author-info">
+              <strong class="fwh-ss-author-name">מיכל ר.</strong>
+              <span class="fwh-ss-author-detail">אמא לתינוקת בת שנה, כפר סבא</span>
+            </div>
+            <div class="fwh-ss-treatment-tag">טיפול פריון טבעי בדיקור סיני</div>
+          </footer>
+        </div>
+      </article>
+
+      <!-- Two smaller panels — START side (right in RTL) -->
+      <div class="fwh-ss-panels-stack">
+
+        <article class="fwh-ss-panel fwh-ss-panel--small fwh-ss-panel--dusty">
+          <div class="fwh-ss-quote-mark fwh-ss-quote-mark--sm" aria-hidden="true">“</div>
+          <blockquote class="fwh-ss-blockquote">
+            <p>סבלתי שנים מכאבי מחזור עצימים ושחלות פוליציסטיות. הרגשתי שהגוף שלי לא שייך לי. הטיפולים במרכז עזרו לי להחזיר שגרה, שקט פנימי ומחזורים מאוזנים. לא האמנתי שאפשר להרגיש ככה בלי תרופות.</p>
+          </blockquote>
+          <footer class="fwh-ss-panel-footer">
+            <div class="fwh-ss-author-info">
+              <strong class="fwh-ss-author-name">שירה ל.</strong>
+              <span class="fwh-ss-author-detail">28, רעננה — שחלות פוליציסטיות</span>
+            </div>
+            <div class="fwh-ss-stars" aria-label="דירוג 5 כוכבים">
+              <span aria-hidden="true">★★★★★</span>
+            </div>
+          </footer>
+        </article>
+
+        <article class="fwh-ss-panel fwh-ss-panel--small fwh-ss-panel--warm">
+          <div class="fwh-ss-quote-mark fwh-ss-quote-mark--sm" aria-hidden="true">“</div>
+          <blockquote class="fwh-ss-blockquote">
+            <p>הגעתי בעיקר בגלל סטרס ועייפות כרונית שהשפיעו על כל מחזור הפוריות שלי. תוך חודשיים של טיפול רגולרי ברפואה סינית בכפר סבא — שינה טובה יותר, פחות חרדה, ותחושה שאני שוב בשליטה על הגוף שלי.</p>
+          </blockquote>
+          <footer class="fwh-ss-panel-footer">
+            <div class="fwh-ss-author-info">
+              <strong class="fwh-ss-author-name">נועה כ.</strong>
+              <span class="fwh-ss-author-detail">34, הוד השרון — סטרס ופוריות</span>
+            </div>
+            <div class="fwh-ss-stars" aria-label="דירוג 5 כוכבים">
+              <span aria-hidden="true">★★★★★</span>
+            </div>
+          </footer>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- CTA row -->
+    <div class="fwh-ss-cta-row">
+      <p class="fwh-ss-cta-text">מוכנה להתחיל את המסע שלך? שיחת ייעוץ ראשונה ללא עלות.</p>
+      <a href="/contact" class="fwh-ss-cta-btn">לתיאום שיחת ייעוץ <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a>
+    </div>
+
+  </div>
+
+  <!-- Bottom gradient divider into contact section -->
+  <div class="fwh-ss-divider-wrapper" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fwhSsDivGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F0EAE0" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#EDE4D8" stop-opacity="1"></stop>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1200" height="64" fill="url(#fwhSsDivGrad)"></rect>
+    </svg>
+  </div>
+
+</section>
+
+<section class="fertility-womens-health-cta-section" data-layout-spec="פוריות ובריאות האישה-cta" dir="rtl">
+  <!-- Botanical decorative motif -->
+  <svg class="fwh-cta-botanical" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30,160 Q60,80 110,60 Q140,50 160,30" stroke="#F8F4EF" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.18"></path>
+    <path d="M110,60 Q90,90 70,120" stroke="#F8F4EF" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.14"></path>
+    <path d="M110,60 Q130,85 150,100" stroke="#F8F4EF" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.14"></path>
+    <ellipse cx="160" cy="30" rx="14" ry="8" transform="rotate(-30 160 30)" stroke="#F8F4EF" stroke-width="1" fill="none" opacity="0.16"></ellipse>
+    <ellipse cx="70" cy="120" rx="12" ry="7" transform="rotate(20 70 120)" stroke="#F8F4EF" stroke-width="1" fill="none" opacity="0.13"></ellipse>
+    <ellipse cx="150" cy="100" rx="11" ry="6" transform="rotate(-10 150 100)" stroke="#F8F4EF" stroke-width="1" fill="none" opacity="0.13"></ellipse>
+  </svg>
+
+  <!-- Secondary botanical motif -->
+  <svg class="fwh-cta-botanical-right" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 180 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M150,180 Q120,100 80,70 Q55,55 40,30" stroke="#F8F4EF" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.15"></path>
+    <path d="M80,70 Q100,95 115,130" stroke="#F8F4EF" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.12"></path>
+    <path d="M80,70 Q60,90 45,108" stroke="#F8F4EF" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.12"></path>
+    <ellipse cx="40" cy="30" rx="13" ry="7" transform="rotate(25 40 30)" stroke="#F8F4EF" stroke-width="1" fill="none" opacity="0.14"></ellipse>
+  </svg>
+
+  <div class="fwh-cta-outer">
+    <div class="fwh-cta-panel">
+      <!-- Subtle circular medallion decoration inside panel -->
+      <svg class="fwh-panel-medallion" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.15"></circle>
+        <circle cx="50" cy="50" r="38" stroke="#7A8B63" stroke-width="0.5" fill="none" opacity="0.10"></circle>
+        <path d="M50,20 Q58,35 50,50 Q42,35 50,20Z" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.18"></path>
+        <path d="M50,20 Q58,35 50,50 Q42,35 50,20Z" transform="rotate(120 50 50)" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.18"></path>
+        <path d="M50,20 Q58,35 50,50 Q42,35 50,20Z" transform="rotate(240 50 50)" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.18"></path>
+      </svg>
+
+      <div class="fwh-cta-content">
+        <span class="fwh-cta-eyebrow">ייעוץ אישי ומכיל</span>
+        <h2 class="fwh-cta-heading">מוכנות להתחיל את המסע שלכן לבריאות ולפריון?</h2>
+        <p class="fwh-cta-body">בין אם את מחפשת תמיכה טבעית בפריון, מענה לבעיות מחזור, או דרך לשחרר את הגוף מעומסי הסטרס היומיומי — אנחנו כאן להקשיב. שיחת ייעוץ ראשונה היא צעד פשוט שיכול לשנות הרבה. נשמח להכיר, להבין את הצרכים שלך, ולבנות יחד תוכנית טיפול מותאמת אישית ברפואה הסינית.</p>
+        <div class="fwh-cta-divider" aria-hidden="true"></div>
+        <div class="fwh-cta-actions">
+          <a href="/contact" class="fwh-btn-primary">
+            <i class="fa-solid fa-phone-flip" aria-hidden="true"></i>
+            לתיאום שיחת ייעוץ
+          </a>
+          <a href="tel:[business_phone]" class="fwh-btn-ghost">
+            <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+            דברי איתנו ישירות
+          </a>
+        </div>
+        <p class="fwh-cta-note">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          שיחת ייעוץ ראשונה — ללא עלות וללא התחייבות
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-main">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Company Info -->
+        <div class="footer-col footer-col--brand">
+          <div class="footer-logo-wrap">
+            <img src="/assets/logo.webp" alt="המרכז לרפואה סינית בכפר סבא" class="logo">
+          </div>
+          <p class="footer-tagline">המרכז לרפואה סינית בכפר סבא מציע טיפולים מקצועיים ומותאמים אישית לכאב, פוריות, בריאות האישה ורווחה כללית — מתוך גישה הוליסטית, חמה ומבוססת ניסיון.</p>
+          <div class="footer-social">
+            <a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col footer-col--links">
+          <h3 class="footer-heading">ניווט מהיר</h3>
+          <ul class="footer-nav">
+            <li><a href="/">בית</a></li>
+            <li><a href="/pain-orthopedics">כאב ואורתופדיה</a></li>
+            <li><a href="/fertility-womens-health">פוריות ובריאות האישה</a></li>
+            <li><a href="/stress-children">סטרס, תינוקות וילדים</a></li>
+            <li><a href="/contact">צור קשר</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col footer-col--contact">
+          <h3 class="footer-heading">יצירת קשר</h3>
+          <ul class="footer-contact">
+            <li>
+              <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+              <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+            </li>
+            <li>
+              <span class="contact-icon"><i class="fas fa-phone"></i></span>
+              <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+            </li>
+            <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+              <span class="contact-text">[business_address]</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Hours / Extra -->
+        <div class="footer-col footer-col--hours">
+          <h3 class="footer-heading">שעות פעילות</h3>
+          <ul class="footer-hours">
+            <li><a href="/"><span class="hours-day">ראשון – חמישי</span><span class="hours-time">09:00 – 20:00</span></a></li>
+            <li><a href="/"><span class="hours-day">שישי</span><span class="hours-time">09:00 – 14:00</span></a></li>
+            <li><a href="/"><span class="hours-day">שבת</span><span class="hours-time">סגור</span></a></li>
+          </ul>
+          <a href="/contact" class="footer-cta">קבע תור עכשיו</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">© 2026 המרכז לרפואה סינית בכפר סבא. כל הזכויות שמורות.</p>
+        <div class="footer-legal">
+          <a href="/privacy">מדיניות פרטיות</a>
+          <span class="footer-divider">|</span>
+          <a href="/terms">תנאי שימוש</a>
+          <span class="footer-divider">|</span>
+          <a href="/accessibility">נגישות</a>
+          <span class="footer-divider">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
