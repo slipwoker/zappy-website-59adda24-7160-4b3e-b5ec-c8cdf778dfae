@@ -12131,6 +12131,39 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
     font-size: 1.3rem;
   }
 }
+
+#acs-frozen-shoulder .acs-title {
+  color: var(--text-light) !important;
+}
+
+#acs-frozen-shoulder .acs-description {
+  color: var(--text-light) !important;
+  opacity: 0.85;
+}
+
+#acs-frozen-shoulder .acs-badge {
+  background: rgba(248,244,239,0.15) !important;
+  color: var(--text-light) !important;
+  border-color: rgba(248,244,239,0.3) !important;
+}
+
+#acs-frozen-shoulder .acs-card {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(248,244,239,0.15) !important;
+}
+
+#acs-frozen-shoulder .acs-card-title {
+  color: var(--text-light) !important;
+}
+
+#acs-frozen-shoulder .acs-card-text {
+  color: var(--text-light) !important;
+  opacity: 0.8;
+}
+
+#acs-frozen-shoulder .acs-cta-btn {
+  background: var(--primary) !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
