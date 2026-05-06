@@ -44,7 +44,10 @@ Information about WCAG compliance and accessibility features.
 
 ## How to Contact Us
 
-- (No contact details configured yet.)
+- Email: ajreri@gmail.com
+- Phone: 054-4339627
+- Phone (tel): tel:0544339627
+- Address: תל חי 40א כפר סבא
 
 ### Contact form
 - URL: https://example.com/contact
