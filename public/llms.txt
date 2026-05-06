@@ -47,7 +47,7 @@ Information about WCAG compliance and accessibility features.
 - Email: ajreri@gmail.com
 - Phone: 054-4339627
 - Phone (tel): tel:0544339627
-- Address: תל חי 40א כפר סבא
+- Address: תל חי 40א, כפר סבא, ישראל
 
 ### Contact form
 - URL: https://example.com/contact

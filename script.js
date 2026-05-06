@@ -1959,11 +1959,11 @@ window.onload = function() {
                     phoneHeaderBtn.addEventListener('click', function() {
                         // Dynamically get phone number from existing tel: links on the page
                         // This ensures the phone button uses the same number as other phone links
-                        // Falls back to [business_phone] placeholder which businessInfoUpdater can replace
+                        // Falls back to 054-4339627 placeholder which businessInfoUpdater can replace
                         const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
                         const phoneNumber = phoneLinks.length > 0 
                             ? phoneLinks[0].getAttribute('href').replace('tel:', '')
-                            : '[business_phone]';
+                            : '054-4339627';
                         window.location.href = 'tel:' + phoneNumber;
                     });
                 }
@@ -1986,15 +1986,15 @@ window.onload = function() {
                 '[tiktok_handle]',
                 '[pinterest_handle]',
                 // Old format (full URL placeholders)
-                '[social_facebook]',
-                '[social instagram]',
-                '[social_instagram]',
-                '[social whatsapp]',
-                '[social_whatsapp]',
+                'https://facebook.com/dikur.sini.yapani',
+                'https://instagram.com/dikursini',
+                'https://instagram.com/dikursini',
+                'https://wa.me/972544339627',
+                'https://wa.me/972544339627',
                 '[social_twitter]',
                 '[social_linkedin]',
-                '[social_youtube]',
-                '[social_tiktok]',
+                'https://youtube.com/@ajreri',
+                'https://tiktok.com/@dikur_sini',
                 '[social_pinterest]'
             ];
             
