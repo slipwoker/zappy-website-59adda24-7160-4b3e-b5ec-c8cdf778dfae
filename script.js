@@ -3893,8 +3893,19 @@ window.onload = function() {
     }
     
     function _isOOS(v) {
-      return v.stock_status === 'out_of_stock' ||
-        (v.stock_quantity !== null && v.stock_quantity !== undefined && v.stock_quantity <= 0);
+      if (!v) return true;
+      if (v.stock_status === 'out_of_stock') return true;
+      var i = v.inventory_quantity != null ? v.inventory_quantity : v.inventoryQuantity;
+      if (i != null && i !== '') {
+        var n = parseFloat(i);
+        if (isFinite(n)) return n <= 0;
+      }
+      var s = v.stock_quantity;
+      if (s != null && s !== '') {
+        var m = parseFloat(s);
+        if (isFinite(m)) return m <= 0;
+      }
+      return false;
     }
     
     function _updateVisuals() {
@@ -3913,9 +3924,11 @@ window.onload = function() {
         btn.disabled = false;
         if (matching.length === 0) {
           btn.classList.add('disabled');
+          btn.disabled = true;
         } else if (matching.every(function(v) { return _isOOS(v); })) {
           btn.classList.add('disabled');
           btn.classList.add('out-of-stock');
+          btn.disabled = true;
         }
       });
     }
@@ -4065,6 +4078,7 @@ window.onload = function() {
       var ak = btn.getAttribute('data-attr');
       var av = btn.getAttribute('data-value');
       if (!ak || !av) return;
+      if (btn.disabled || btn.classList.contains('disabled')) return;
       
       // If already selected, do nothing (no manual deselect)
       if (selectedAttributes[ak] === av) {
@@ -5341,4 +5355,27 @@ window.onload = function() {
   }).observe(document.documentElement, { childList: true, subtree: true });
   setTimeout(patch, 250);
   setTimeout(patch, 1500);
+})();
+
+/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_RUNTIME */
+/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_RUNTIME_V2 */
+(function(){
+  try {
+    function injectMobileNavIconAlignmentFix() {
+      if (document.getElementById('zappy-mobile-nav-icon-alignment-fix')) return;
+      var style = document.createElement('style');
+      style.id = 'zappy-mobile-nav-icon-alignment-fix';
+      style.textContent = "\n\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX */\n/* ZAPPY_MOBILE_NAV_ICON_ALIGNMENT_FIX_V2 */\n/* The mobile hamburger / phone buttons are absolutely positioned. Keep the\n   navbar itself as a non-collapsing containing block so auto-margin centering\n   stays aligned even when generated mobile CSS moves every nav child out of flow. */\n@media (max-width: 768px) {\n  .navbar,\n  nav.navbar {\n    min-height: 70px !important;\n  }\n\n  .navbar > .mobile-toggle,\n  nav.navbar > .mobile-toggle,\n  .navbar .mobile-toggle,\n  nav.navbar .mobile-toggle,\n  #mobileToggle,\n  .navbar > .phone-header-btn,\n  nav.navbar > .phone-header-btn,\n  .navbar .phone-header-btn,\n  nav.navbar .phone-header-btn {\n    position: absolute !important;\n    top: 0 !important;\n    bottom: 0 !important;\n    transform: none !important;\n    margin-top: auto !important;\n    margin-bottom: auto !important;\n    align-self: center !important;\n    align-items: center !important;\n    justify-content: center !important;\n    line-height: 0 !important;\n  }\n\n  .navbar > .mobile-toggle,\n  nav.navbar > .mobile-toggle,\n  .navbar .mobile-toggle,\n  nav.navbar .mobile-toggle,\n  #mobileToggle {\n    display: flex !important;\n  }\n\n  html:not([data-zappy-site-type=\"ecommerce\"]) .navbar > .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) nav.navbar > .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) .navbar .phone-header-btn,\n  html:not([data-zappy-site-type=\"ecommerce\"]) nav.navbar .phone-header-btn {\n    display: flex !important;\n  }\n\n  html[data-zappy-site-type=\"ecommerce\"] .phone-header-btn,\n  body[data-zappy-site-type=\"ecommerce\"] .phone-header-btn,\n  html[data-zappy-site-type=\"ecommerce\"] header .phone-header-btn,\n  html[data-zappy-site-type=\"ecommerce\"] nav .phone-header-btn {\n    display: none !important;\n    visibility: hidden !important;\n    width: 0 !important;\n    height: 0 !important;\n    min-width: 0 !important;\n    overflow: hidden !important;\n  }\n}\n";
+      document.head.appendChild(style);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', injectMobileNavIconAlignmentFix);
+    } else {
+      injectMobileNavIconAlignmentFix();
+    }
+    window.addEventListener('load', injectMobileNavIconAlignmentFix);
+    setTimeout(injectMobileNavIconAlignmentFix, 250);
+    setTimeout(injectMobileNavIconAlignmentFix, 1000);
+  } catch (e) {}
 })();

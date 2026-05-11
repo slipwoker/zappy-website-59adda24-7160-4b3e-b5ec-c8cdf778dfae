@@ -1,0 +1,2982 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>טיפול בכאב גב</title>
+    <meta name="description" content="המרכז לרפואה סינית בכפר סבא - טיפול בכאב גב">
+    <meta name="keywords" content="">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '59adda24-7160-4b3e-b5ec-c8cdf778dfae',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="טיפול בכאב גב">
+    <meta property="og:description" content="המרכז לרפואה סינית בכפר סבא - טיפול בכאב גב">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="טיפול בכאב גב">
+    <meta name="twitter:description" content="המרכז לרפואה סינית בכפר סבא - טיפול בכאב גב">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="article">
+    
+    
+    
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:alt" content="טיפול בכאב גב">
+    <meta property="og:locale" content="he_IL">
+    <!-- Twitter Card Meta Tags -->
+    
+    
+    
+    
+    <meta name="twitter:image:alt" content="טיפול בכאב גב"><style id="zappy-ai-page-styles">.back-pain-intro-section {
+  position: relative;
+  overflow: visible;
+  background-color: #EDE4D8;
+  background-image: linear-gradient(180deg, #F5F0E8 0%, #EDE4D8 100%);
+  color: var(--text-dark);
+  padding: 140px 24px 100px;
+  direction: rtl;
+}
+
+/* Decorative branch */
+.back-pain-intro-section .back-pain-intro-decor-branch {
+  position: absolute;
+  top: 80px;
+  inset-inline-end: 48px;
+  width: 200px;
+  height: auto;
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative medallion */
+.back-pain-intro-section .back-pain-intro-decor-medallion {
+  position: absolute;
+  bottom: 120px;
+  inset-inline-start: 40px;
+  width: 110px;
+  height: auto;
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Container */
+.back-pain-intro-section .back-pain-intro-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Grid: 2 columns — text (right) | image (left) */
+.back-pain-intro-section .back-pain-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  direction: rtl;
+}
+
+/* ── TEXT COLUMN ── */
+.back-pain-intro-section .back-pain-intro-text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  text-align: right;
+}
+
+.back-pain-intro-section .back-pain-intro-badge {
+  display: inline-block;
+  background: rgba(122, 139, 99, 0.12);
+  color: var(--secondary);
+  border: 1px solid rgba(122, 139, 99, 0.3);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  align-self: flex-start;
+}
+
+.back-pain-intro-section .back-pain-intro-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.back-pain-intro-section .back-pain-intro-lead {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 520px;
+}
+
+/* CTA row */
+.back-pain-intro-section .back-pain-intro-ctas {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.back-pain-intro-section .back-pain-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 100px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  box-shadow: 0 8px 28px rgba(196, 107, 78, 0.28);
+}
+
+.back-pain-intro-section .back-pain-btn-primary:hover {
+  background: #B05C38;
+  box-shadow: 0 12px 36px rgba(196, 107, 78, 0.38);
+  transform: translateY(-2px);
+}
+
+.back-pain-intro-section .back-pain-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-dark);
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 13px 28px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border-light);
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+}
+
+.back-pain-intro-section .back-pain-btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(196, 107, 78, 0.05);
+}
+
+/* Trust bar */
+.back-pain-intro-section .back-pain-intro-trust {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.back-pain-intro-section .back-pain-trust-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+.back-pain-intro-section .back-pain-trust-item svg {
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+/* ── VISUAL COLUMN ── */
+.back-pain-intro-section .back-pain-intro-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.back-pain-intro-section .back-pain-intro-image-wrap {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  border: 1.5px solid var(--border-light);
+  box-shadow: 0 20px 64px rgba(100, 80, 60, 0.14);
+  width: 100%;
+  max-width: 520px;
+  line-height: 0;
+}
+
+.back-pain-intro-section .back-pain-intro-image-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+/* Floating info card */
+.back-pain-intro-section .back-pain-intro-float-card {
+  position: absolute;
+  bottom: -28px;
+  inset-inline-start: -36px;
+  background: #FFFDF9;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 12px 40px rgba(100, 80, 60, 0.13);
+  padding: 22px 26px;
+  max-width: 280px;
+  z-index: 5;
+  text-align: right;
+}
+
+.back-pain-intro-section .back-pain-float-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+  line-height: 1.35;
+}
+
+.back-pain-intro-section .back-pain-float-card-text {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── BOTTOM DIVIDER ── */
+.back-pain-intro-section .back-pain-intro-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.back-pain-intro-section .back-pain-intro-divider-wrapper svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── RESPONSIVE: TABLET ── */
+@media (max-width: 1024px) {
+  .back-pain-intro-section .back-pain-intro-grid {
+    gap: 40px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-float-card {
+    inset-inline-start: -16px;
+    max-width: 240px;
+    padding: 16px 18px;
+  }
+}
+
+/* ── RESPONSIVE: MOBILE ── */
+@media (max-width: 768px) {
+  .back-pain-intro-section {
+    padding: 100px 16px 90px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-h1 {
+    font-size: 2.1rem;
+  }
+
+  .back-pain-intro-section .back-pain-intro-lead {
+    max-width: 100%;
+  }
+
+  .back-pain-intro-section .back-pain-intro-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .back-pain-intro-section .back-pain-btn-primary,
+  .back-pain-intro-section .back-pain-btn-outline {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .back-pain-intro-section .back-pain-intro-trust {
+    gap: 12px 20px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-visual {
+    align-items: center;
+  }
+
+  .back-pain-intro-section .back-pain-intro-image-wrap {
+    max-width: 100%;
+    border-radius: 20px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-float-card {
+    position: relative;
+    inset-inline-start: auto;
+    bottom: auto;
+    margin-top: 16px;
+    max-width: 100%;
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-decor-branch {
+    width: 120px;
+    opacity: 0.06;
+    top: 60px;
+    inset-inline-end: 10px;
+  }
+
+  .back-pain-intro-section .back-pain-intro-decor-medallion {
+    display: none;
+  }
+}
+
+.back-pain-conditions-section {
+  background-color: #F5F0E8;
+  background-image: linear-gradient(180deg, #F5F0E8 0%, #EDE4D8 100%);
+  color: var(--text-dark);
+  direction: rtl;
+  position: relative;
+  overflow: visible;
+  padding: 80px 24px 72px;
+}
+
+.back-pain-conditions-section .back-pain-conditions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Header ── */
+.back-pain-conditions-section .back-pain-conditions-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 56px;
+}
+
+.back-pain-conditions-section .back-pain-conditions-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 18px;
+  letter-spacing: -0.01em;
+}
+
+.back-pain-conditions-section .back-pain-conditions-subtitle {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+}
+
+/* ── Grid ── */
+.back-pain-conditions-section .back-pain-conditions-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  direction: rtl;
+}
+
+@media (min-width: 640px) {
+  .back-pain-conditions-section .back-pain-conditions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Card ── */
+.back-pain-conditions-section .back-pain-condition-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(180, 160, 130, 0.28);
+  border-radius: 20px;
+  padding: 2rem 1.75rem;
+  box-shadow: 0 4px 18px rgba(100, 80, 60, 0.07);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 18px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  min-width: 0;
+}
+
+.back-pain-conditions-section .back-pain-condition-card:hover {
+  box-shadow: 0 10px 36px rgba(100, 80, 60, 0.13);
+  transform: translateY(-3px);
+}
+
+/* ── Icon Wrap ── */
+.back-pain-conditions-section .back-pain-condition-icon-wrap {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(138, 168, 181, 0.18);
+  border: 1px solid rgba(138, 168, 181, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+  margin-top: 2px;
+}
+
+.back-pain-conditions-section .back-pain-condition-icon-wrap svg {
+  display: block;
+}
+
+/* ── Card Content ── */
+.back-pain-conditions-section .back-pain-condition-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.back-pain-conditions-section .back-pain-condition-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-dark);
+  margin: 0 0 10px;
+  text-align: right;
+}
+
+.back-pain-conditions-section .back-pain-condition-content p {
+  font-family: 'Assistant', sans-serif;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: right;
+}
+
+/* ── Summary Bar ── */
+.back-pain-conditions-section .back-pain-conditions-summary {
+  margin-top: 52px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(180, 160, 130, 0.3);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 4px 16px rgba(100, 80, 60, 0.06);
+}
+
+.back-pain-conditions-section .back-pain-conditions-summary-leaf {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  color: var(--secondary);
+  margin-top: 3px;
+  opacity: 0.75;
+}
+
+.back-pain-conditions-section .back-pain-conditions-summary p {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: right;
+}
+
+/* ── Decorative Branch ── */
+.back-pain-conditions-section .back-pain-conditions-deco-branch {
+  position: absolute;
+  top: 20px;
+  inset-inline-end: 0;
+  width: 200px;
+  height: 160px;
+  opacity: 0.09;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 767px) {
+  .back-pain-conditions-section {
+    padding: 52px 16px 52px;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-header {
+    margin-bottom: 36px;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-title {
+    font-size: 1.65rem;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .back-pain-conditions-section .back-pain-condition-card {
+    padding: 1.25rem 1.1rem;
+    gap: 14px;
+    border-radius: 16px;
+  }
+
+  .back-pain-conditions-section .back-pain-condition-icon-wrap {
+    width: 42px;
+    height: 42px;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-summary {
+    margin-top: 32px;
+    padding: 18px 16px;
+    gap: 12px;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-deco-branch {
+    width: 120px;
+    height: 96px;
+    opacity: 0.06;
+  }
+}
+
+/* ── Responsive: Desktop ── */
+@media (min-width: 768px) {
+  .back-pain-conditions-section {
+    padding: 96px 40px 80px;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-title {
+    font-size: 2.25rem;
+  }
+
+  .back-pain-conditions-section .back-pain-conditions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+}
+
+.back-pain-benefits-section {
+  background-color: #F5F0E8;
+  background-image: linear-gradient(180deg, #F5F0E8 0%, #EDE4D8 100%);
+  color: var(--text-dark);
+  direction: rtl;
+  position: relative;
+  overflow: visible;
+  padding: 80px 24px 60px;
+}
+
+.back-pain-benefits-section .back-pain-benefits-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 56px;
+}
+
+/* ── Right Column: Image ── */
+.back-pain-benefits-section .back-pain-benefits-image-col {
+  flex: 0 0 auto;
+  width: 360px;
+  position: relative;
+}
+
+.back-pain-benefits-section .back-pain-benefits-image-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.back-pain-benefits-section .back-pain-benefits-image-wrapper img {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 12px 48px rgba(100, 80, 60, 0.14);
+  display: block;
+}
+
+.back-pain-benefits-section .back-pain-benefits-leaf-deco {
+  position: absolute;
+  bottom: -28px;
+  inset-inline-end: -28px;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Left Column: Content ── */
+.back-pain-benefits-section .back-pain-benefits-content-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.back-pain-benefits-section .back-pain-benefits-eyebrow {
+  display: inline-block;
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--secondary);
+  background: rgba(122, 139, 99, 0.12);
+  border-radius: 100px;
+  padding: 4px 14px;
+  margin-bottom: 14px;
+  align-self: flex-start;
+}
+
+.back-pain-benefits-section .back-pain-benefits-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 18px 0;
+  text-align: right;
+}
+
+.back-pain-benefits-section .back-pain-benefits-intro {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin: 0 0 12px 0;
+  text-align: right;
+}
+
+.back-pain-benefits-section .back-pain-benefits-intro:last-of-type {
+  margin-bottom: 32px;
+}
+
+/* ── 2x2 Cards Grid ── */
+.back-pain-benefits-section .back-pain-benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  direction: rtl;
+}
+
+.back-pain-benefits-section .back-pain-benefit-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(180, 160, 130, 0.28);
+  border-radius: 16px;
+  padding: 20px 18px 20px 18px;
+  box-shadow: 0 4px 16px rgba(100, 80, 60, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.back-pain-benefits-section .back-pain-benefit-card:hover {
+  box-shadow: 0 10px 32px rgba(100, 80, 60, 0.13);
+  transform: translateY(-2px);
+}
+
+.back-pain-benefits-section .back-pain-benefit-card-accent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.back-pain-benefits-section .back-pain-benefit-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.back-pain-benefits-section .back-pain-benefit-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-dark);
+  margin: 0;
+  text-align: right;
+}
+
+.back-pain-benefits-section .back-pain-benefit-card p {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: right;
+}
+
+/* ── Bottom Sage Separator ── */
+.back-pain-benefits-section .back-pain-benefits-separator {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  height: 1px;
+  background: rgba(122, 139, 99, 0.22);
+  border-radius: 2px;
+}
+
+/* ── Mobile Responsive ── */
+@media (max-width: 768px) {
+  .back-pain-benefits-section {
+    padding: 48px 16px 40px;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-container {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-image-col {
+    width: 100%;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-image-wrapper img {
+    height: 280px;
+    border-radius: 16px;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-leaf-deco {
+    width: 72px;
+    height: 72px;
+    bottom: -18px;
+    inset-inline-end: -12px;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-heading {
+    font-size: 1.6rem;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .back-pain-benefits-section .back-pain-benefit-card {
+    padding: 16px 14px;
+  }
+
+  .back-pain-benefits-section .back-pain-benefits-separator {
+    margin-top: 32px;
+  }
+}
+
+.back-pain-reviews-section {
+  position: relative;
+  background-color: #E8E4DC;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(138,168,181,0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 85% 20%, rgba(138,168,181,0.10) 0%, transparent 60%),
+    linear-gradient(180deg, #EDEAE2 0%, #E4E0D8 100%);
+  color: var(--text-dark);
+  padding: 80px 24px 72px;
+  overflow: visible;
+  direction: rtl;
+}
+
+.back-pain-reviews-section .bpr-bg-wash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(138,168,181,0.09) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.back-pain-reviews-section .bpr-botanical-motif {
+  position: absolute;
+  inset-inline-start: 24px;
+  top: 32px;
+  width: 160px;
+  height: 160px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.back-pain-reviews-section .bpr-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.back-pain-reviews-section .bpr-header {
+  text-align: right;
+  margin-bottom: 52px;
+  max-width: 640px;
+}
+
+.back-pain-reviews-section .bpr-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+}
+
+.back-pain-reviews-section .bpr-subtitle {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Grid ── */
+.back-pain-reviews-section .bpr-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  direction: rtl;
+  margin-bottom: 56px;
+}
+
+@media (min-width: 768px) {
+  .back-pain-reviews-section .bpr-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+/* ── Card ── */
+.back-pain-reviews-section .bpr-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(100,80,60,0.09);
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+  overflow: hidden;
+  min-width: 260px;
+}
+
+.back-pain-reviews-section .bpr-card:hover {
+  box-shadow: 0 12px 40px rgba(100,80,60,0.15);
+  transform: translateY(-4px);
+}
+
+.back-pain-reviews-section .bpr-card-inner {
+  padding: 2rem 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Stars ── */
+.back-pain-reviews-section .bpr-stars {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  justify-content: flex-end;
+}
+
+.back-pain-reviews-section .bpr-stars svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ── Blockquote ── */
+.back-pain-reviews-section .bpr-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--primary);
+  margin: 0;
+  text-align: right;
+  position: relative;
+  padding-inline-start: 0;
+  border: none;
+}
+
+.back-pain-reviews-section .bpr-quote-mark {
+  font-size: 2.2rem;
+  line-height: 0;
+  vertical-align: -0.45em;
+  margin-inline-end: 4px;
+  color: var(--primary);
+  opacity: 0.45;
+  font-family: Georgia, serif;
+}
+
+/* ── Review text ── */
+.back-pain-reviews-section .bpr-review-text {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-dark);
+  margin: 0;
+  text-align: right;
+  flex: 1;
+}
+
+/* ── Card footer ── */
+.back-pain-reviews-section .bpr-card-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  margin-top: auto;
+}
+
+.back-pain-reviews-section .bpr-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C46B4E 0%, #B05C38 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.back-pain-reviews-section .bpr-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.back-pain-reviews-section .bpr-name {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.3;
+}
+
+.back-pain-reviews-section .bpr-detail {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── CTA row ── */
+.back-pain-reviews-section .bpr-cta-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  text-align: right;
+  padding: 36px 40px;
+  background: rgba(138,168,181,0.10);
+  border-radius: 16px;
+  border: 1px solid rgba(138,168,181,0.22);
+}
+
+@media (min-width: 768px) {
+  .back-pain-reviews-section .bpr-cta-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.back-pain-reviews-section .bpr-cta-text {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin: 0;
+  max-width: 560px;
+  text-align: right;
+}
+
+.back-pain-reviews-section .bpr-cta-btn {
+  display: inline-block;
+  border-radius: 100px;
+  padding: 13px 30px;
+  background: linear-gradient(135deg, #C46B4E 0%, #B05C38 100%);
+  color: #FFFFFF;
+  border: none;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 6px 24px rgba(196,107,78,0.28);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  cursor: pointer;
+}
+
+.back-pain-reviews-section .bpr-cta-btn:hover {
+  box-shadow: 0 10px 36px rgba(196,107,78,0.38);
+  transform: translateY(-2px);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* ── Mobile overrides ── */
+@media (max-width: 767px) {
+  .back-pain-reviews-section {
+    padding: 56px 16px 52px;
+  }
+
+  .back-pain-reviews-section .bpr-botanical-motif {
+    width: 100px;
+    height: 100px;
+    top: 16px;
+    inset-inline-start: 8px;
+    opacity: 0.4;
+  }
+
+  .back-pain-reviews-section .bpr-header {
+    margin-bottom: 36px;
+    max-width: 100%;
+  }
+
+  .back-pain-reviews-section .bpr-title {
+    font-size: 1.65rem;
+  }
+
+  .back-pain-reviews-section .bpr-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .back-pain-reviews-section .bpr-card-inner {
+    padding: 1.5rem 1.25rem 1.25rem;
+  }
+
+  .back-pain-reviews-section .bpr-cta-row {
+    padding: 24px 20px;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .back-pain-reviews-section .bpr-cta-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.back-pain-faq-section {
+  background-color: #F5F0E8;
+  background-image: linear-gradient(180deg, #F5F0E8 0%, #EDE4D8 100%);
+  color: var(--text-dark);
+  padding: 80px 24px 72px;
+  position: relative;
+  overflow: visible;
+  direction: rtl;
+}
+
+.back-pain-faq-section .back-pain-faq-container {
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Decorative botanical SVG */
+.back-pain-faq-section .back-pain-faq-decor {
+  position: absolute;
+  top: -20px;
+  inset-inline-end: -60px;
+  width: 180px;
+  height: 180px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+/* Header */
+.back-pain-faq-section .back-pain-faq-header {
+  text-align: right;
+  margin-block-end: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.back-pain-faq-section .back-pain-faq-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+  direction: rtl;
+}
+
+.back-pain-faq-section .back-pain-faq-intro {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+/* FAQ List */
+.back-pain-faq-section .back-pain-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* FAQ Card */
+.back-pain-faq-section .back-pain-faq-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(180, 160, 130, 0.3);
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 16px rgba(100, 80, 60, 0.07);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  direction: rtl;
+  text-align: right;
+  border-inline-start: 3px solid var(--secondary);
+}
+
+.back-pain-faq-section .back-pain-faq-card:hover {
+  box-shadow: 0 8px 32px rgba(100, 80, 60, 0.13);
+  transform: translateY(-2px);
+}
+
+.back-pain-faq-section .back-pain-faq-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-dark);
+  margin: 0 0 14px 0;
+  direction: rtl;
+  text-align: right;
+}
+
+.back-pain-faq-section .back-pain-faq-answer {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+/* CTA */
+.back-pain-faq-section .back-pain-faq-cta-wrapper {
+  text-align: center;
+  margin-block-start: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.back-pain-faq-section .back-pain-faq-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100px;
+  padding: 14px 32px;
+  background: var(--primary);
+  color: #FFFFFF;
+  border: none;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(196, 107, 78, 0.25);
+  letter-spacing: 0.01em;
+}
+
+.back-pain-faq-section .back-pain-faq-cta:hover {
+  background: #b05c38;
+  box-shadow: 0 8px 28px rgba(196, 107, 78, 0.38);
+  transform: translateY(-2px);
+  color: #FFFFFF;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .back-pain-faq-section {
+    padding: 56px 16px 56px;
+  }
+
+  .back-pain-faq-section .back-pain-faq-decor {
+    width: 110px;
+    height: 110px;
+    inset-inline-end: -10px;
+    top: -10px;
+    opacity: 0.7;
+  }
+
+  .back-pain-faq-section .back-pain-faq-title {
+    font-size: 1.6rem;
+  }
+
+  .back-pain-faq-section .back-pain-faq-header {
+    margin-block-end: 32px;
+  }
+
+  .back-pain-faq-section .back-pain-faq-card {
+    padding: 20px 18px 20px 14px;
+    border-radius: 12px;
+  }
+
+  .back-pain-faq-section .back-pain-faq-question {
+    font-size: 1.15rem;
+  }
+
+  .back-pain-faq-section .back-pain-faq-list {
+    gap: 14px;
+  }
+
+  .back-pain-faq-section .back-pain-faq-cta-wrapper {
+    margin-block-start: 36px;
+  }
+
+  .back-pain-faq-section .back-pain-faq-cta {
+    font-size: 0.95rem;
+    padding: 13px 24px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.back-pain-consultation-section {
+  position: relative;
+  overflow: visible;
+  background-color: #4A3F35;
+  background-image:
+    radial-gradient(ellipse at 15% 50%, rgba(122,139,99,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 30%, rgba(138,168,181,0.12) 0%, transparent 50%),
+    linear-gradient(160deg, #4A3F35 0%, #3A3028 55%, #2E2A26 100%);
+  color: var(--text-light);
+  padding: 90px 24px 80px;
+  direction: rtl;
+}
+
+/* Botanical decorations */
+.back-pain-consultation-section .bpc-botanical-bg {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 320px;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.back-pain-consultation-section .bpc-botanical-right {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  width: 260px;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Container */
+.back-pain-consultation-section .bpc-container {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Inner panel */
+.back-pain-consultation-section .bpc-panel {
+  position: relative;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(248, 244, 239, 0.12);
+  border-radius: 28px;
+  padding: 56px 52px 48px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow:
+    0 0 60px rgba(196, 107, 78, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Glow orb */
+.back-pain-consultation-section .bpc-glow-orb {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(196, 107, 78, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+/* Content */
+.back-pain-consultation-section .bpc-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge */
+.back-pain-consultation-section .bpc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(196, 107, 78, 0.20);
+  border: 1px solid rgba(196, 107, 78, 0.35);
+  border-radius: 100px;
+  padding: 6px 16px;
+  margin-block-end: 24px;
+  color: #E8B99A;
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.back-pain-consultation-section .bpc-badge svg {
+  color: #E8B99A;
+  flex-shrink: 0;
+}
+
+/* Heading */
+.back-pain-consultation-section .bpc-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-light);
+  margin: 0 0 20px 0;
+  letter-spacing: -0.01em;
+  direction: rtl;
+  text-align: center;
+}
+
+/* Subtext */
+.back-pain-consultation-section .bpc-subtext {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(248, 244, 239, 0.82);
+  margin: 0 auto 32px;
+  max-width: 620px;
+  direction: rtl;
+  text-align: center;
+}
+
+/* Trust row */
+.back-pain-consultation-section .bpc-trust-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-block-end: 36px;
+  direction: rtl;
+}
+
+.back-pain-consultation-section .bpc-trust-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(248, 244, 239, 0.88);
+  white-space: nowrap;
+}
+
+.back-pain-consultation-section .bpc-trust-item svg {
+  color: #7A8B63;
+  flex-shrink: 0;
+}
+
+/* CTA row */
+.back-pain-consultation-section .bpc-cta-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-block-end: 24px;
+  direction: rtl;
+}
+
+/* Primary button */
+.back-pain-consultation-section .bpc-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(135deg, #C8704A 0%, #B05C38 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 100px;
+  padding: 15px 32px;
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(200, 112, 74, 0.40);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.back-pain-consultation-section .bpc-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(200, 112, 74, 0.55);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+/* Outline button */
+.back-pain-consultation-section .bpc-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  color: var(--text-light);
+  border: 1.5px solid rgba(248, 244, 239, 0.45);
+  border-radius: 100px;
+  padding: 14px 28px;
+  font-family: 'Assistant', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.back-pain-consultation-section .bpc-btn-outline:hover {
+  border-color: rgba(248, 244, 239, 0.80);
+  background: rgba(248, 244, 239, 0.07);
+  transform: translateY(-2px);
+  color: var(--text-light);
+  text-decoration: none;
+}
+
+/* Disclaimer */
+.back-pain-consultation-section .bpc-disclaimer {
+  font-family: 'Assistant', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: rgba(248, 244, 239, 0.50);
+  margin: 0 auto;
+  max-width: 520px;
+  text-align: center;
+  direction: rtl;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .back-pain-consultation-section {
+    padding: 60px 16px 56px;
+  }
+
+  .back-pain-consultation-section .bpc-panel {
+    padding: 40px 24px 36px;
+    border-radius: 20px;
+  }
+
+  .back-pain-consultation-section .bpc-heading {
+    font-size: 1.75rem;
+  }
+
+  .back-pain-consultation-section .bpc-trust-row {
+    gap: 14px;
+  }
+
+  .back-pain-consultation-section .bpc-trust-item {
+    font-size: 0.8rem;
+  }
+
+  .back-pain-consultation-section .bpc-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .back-pain-consultation-section .bpc-btn-primary,
+  .back-pain-consultation-section .bpc-btn-outline {
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+
+  .back-pain-consultation-section .bpc-botanical-bg {
+    width: 180px;
+    opacity: 0.6;
+  }
+
+  .back-pain-consultation-section .bpc-botanical-right {
+    width: 140px;
+    opacity: 0.5;
+  }
+
+  .back-pain-consultation-section .bpc-glow-orb {
+    width: 220px;
+    height: 140px;
+  }
+}</style>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="0544339627" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo.webp" alt="המרכז לרפואה סינית בכפר סבא" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li class="nav-dropdown"><a href="/pain-orthopedics" class="dropdown-toggle">כאב ואורתופדיה <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:3px"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a><ul class="nav-submenu"><li><a href="/frozen-shoulder">כתף קפואה</a></li><li><a href="/back-pain">כאב גב</a></li></ul></li><li><a href="/fertility-womens-health">פוריות ובריאות האישה</a></li><li><a href="/stress-children">סטרס, תינוקות וילדים</a></li><li><a href="/frozen-shoulder" class="">כתף קפואה</a></li><li><a href="/back-pain" class="nav-link">כאב גב</a></li></ul></div>
+
+    
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '054-4339627';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main class="blog-page ai-generated-page"><section class="back-pain-intro-section" data-layout-spec="טיפול בכאב גב-intro" dir="rtl">
+  <!-- Decorative bonsai branch SVG -->
+  <svg class="back-pain-intro-decor-branch" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,160 Q60,120 90,90 Q110,70 100,40 M90,90 Q120,75 150,85 M90,90 Q70,60 95,30 M150,85 Q180,70 200,50" stroke="#7A8B63" stroke-width="2" stroke-linecap="round" fill="none"></path>
+  </svg>
+
+  <!-- Decorative leaf medallion SVG -->
+  <svg class="back-pain-intro-decor-medallion" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="56" stroke="#7A8B63" stroke-width="1.5" fill="none"></circle>
+    <path d="M60,20 Q75,40 60,60 Q45,40 60,20Z" stroke="#7A8B63" stroke-width="1.5" fill="none"></path>
+    <path d="M20,75 Q42,68 60,60 Q50,80 20,75Z" stroke="#7A8B63" stroke-width="1.5" fill="none"></path>
+    <path d="M100,75 Q78,68 60,60 Q70,80 100,75Z" stroke="#7A8B63" stroke-width="1.5" fill="none"></path>
+  </svg>
+
+  <div class="back-pain-intro-container">
+    <div class="back-pain-intro-grid">
+
+      <!-- Right column: Text content -->
+      <div class="back-pain-intro-text">
+        <span class="back-pain-intro-badge">רפואה סינית מסורתית</span>
+        <h1 class="back-pain-intro-h1">כאב גב? הגוף שלך<br>מבקש להחלים</h1>
+        <p class="back-pain-intro-lead">כאב גב תחתון, פריצת דיסק, מתח שרירים כרוני – אלו לא גזירות גורל. במרכז לרפואה סינית בכפר סבא אנו מטפלים בשורש הכאב באמצעות דיקור סיני, טיפולי רקמות ועיסוי רפואי – עם תוצאות שמדברות בעד עצמן.</p>
+
+        <div class="back-pain-intro-ctas">
+          <a href="/contact" class="back-pain-btn-primary">קביעת ייעוץ ראשוני</a>
+          <a href="#treatments" class="back-pain-btn-outline">הכירו את הטיפולים</a>
+        </div>
+
+        <div class="back-pain-intro-trust">
+          <span class="back-pain-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            מעל 15 שנות ניסיון
+          </span>
+          <span class="back-pain-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            טיפול אישי ומקיף
+          </span>
+          <span class="back-pain-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            ללא תרופות וניתוחים
+          </span>
+        </div>
+      </div>
+
+      <!-- Left column: Image + floating card -->
+      <div class="back-pain-intro-visual">
+        <div class="back-pain-intro-image-wrap">
+          <img data-context="A calm, professional Traditional Chinese Medicine clinic setting in Israel. An acupuncturist practitioner gently treating a patient lying on a treatment table, focused on the lower back area. Warm, soft lighting with natural tones. Clean, minimal clinic environment with wooden accents and green plants. Conveys healing, trust, and expert care." width="560" height="640" src="/assets/section-intro-back-pain-intro-image-1.webp" alt="טיפול דיקור סיני לכאב גב במרכז לרפואה סינית בכפר סבא">
+        </div>
+
+        <!-- Floating info card -->
+        <div class="back-pain-intro-float-card">
+          <h3 class="back-pain-float-card-title">גישה הוליסטית לכאב גב</h3>
+          <p class="back-pain-float-card-text">הרפואה הסינית רואה בכאב גב תחתון ביטוי לחוסר איזון בזרימת האנרגיה. הטיפול משלב דיקור, צמחי מרפא ועיסוי טיפולי לשיקום מלא ומניעת הישנות.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom wave divider -->
+  <div class="back-pain-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,35 Q100,20 200,32 T400,28 Q500,22 600,30 T800,26 Q900,20 1000,30 T1200,28 L1200,70 Z" fill="#F5F0E8"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="back-pain-conditions-section" data-layout-spec="טיפול בכאב גב-conditions" dir="rtl">
+  <div class="back-pain-conditions-container">
+
+    <!-- Section Header -->
+    <header class="back-pain-conditions-header">
+      <h2 class="back-pain-conditions-title">מצבים שאנו מטפלים בהם</h2>
+      <p class="back-pain-conditions-subtitle">כאב גב יכול לנבוע ממגוון סיבות שונות — מפציעות ספורט ועד שינויים ניווניים. ברפואה הסינית, כל מצב מאובחן לעומק תוך התחשבות באופי הכאב, עוצמתו, ומהלך היומיום של המטופל.</p>
+    </header>
+
+    <!-- Conditions Grid -->
+    <div class="back-pain-conditions-grid">
+
+      <!-- Card 1 -->
+      <article class="back-pain-condition-card">
+        <div class="back-pain-condition-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+            <path d="M12 2C8 2 6 5 6 8c0 4 3 6 3 10h6c0-4 3-6 3-10 0-3-2-6-6-6z"></path>
+            <line x1="9" y1="22" x2="15" y2="22"></line>
+            <line x1="10" y1="19" x2="14" y2="19"></line>
+          </svg>
+        </div>
+        <div class="back-pain-condition-content">
+          <h3 class="back-pain-condition-title">כאב גב תחתון</h3>
+          <p>כאב מתמשך או חוזר באזור המותני, הנגרם לרוב ממתח שרירי, לחץ על עצבים או חוסר איזון בין רקמות. הטיפול מכוון לשחרור החסימה ולחיזוק אזורי התמיכה.</p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="back-pain-condition-card">
+        <div class="back-pain-condition-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"></path>
+          </svg>
+        </div>
+        <div class="back-pain-condition-content">
+          <h3 class="back-pain-condition-title">פריצת דיסק</h3>
+          <p>לחץ על עצב השדרה הגורם לכאב מקרין לרגל, נימול או חולשה. דיקור ועיסוי טיפולי מסייעים להפחית דלקת, לשחרר עצבים ולשקם את תנועתיות הגב.</p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="back-pain-condition-card">
+        <div class="back-pain-condition-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+            <path d="M3 12h18"></path>
+            <path d="M7 6c0 0 1 3 5 3s5-3 5-3"></path>
+            <path d="M7 18c0 0 1-3 5-3s5 3 5 3"></path>
+            <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
+          </svg>
+        </div>
+        <div class="back-pain-condition-content">
+          <h3 class="back-pain-condition-title">ניוון סחוסים ודיסקים</h3>
+          <p>שחיקה הדרגתית של הסחוס הבין-חולייתי הגורמת לנוקשות, כאב ומוגבלות תנועה. הרפואה הסינית מתמקדת בהזנת הרקמה ובהאטת תהליך ההידרדרות.</p>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="back-pain-condition-card">
+        <div class="back-pain-condition-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+        </div>
+        <div class="back-pain-condition-content">
+          <h3 class="back-pain-condition-title">פציעות ספורט בגב</h3>
+          <p>מתיחות, קרעים ועומסים חוזרים הנפוצים בקרב ספורטאים ואנשים פעילים. הטיפול משלב דיקור, כוסות רוח וטכניקות שיקום לחזרה מהירה לפעילות.</p>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="back-pain-condition-card">
+        <div class="back-pain-condition-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+            <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"></path>
+          </svg>
+        </div>
+        <div class="back-pain-condition-content">
+          <h3 class="back-pain-condition-title">כאב גב מקצועי ויושבני</h3>
+          <p>כאב הנובע מישיבה ממושכת, עבודה מול מחשב או תנוחות לא נכונות. הטיפול מטפל בשורש הבעיה תוך מתן כלים לשמירה על בריאות השדרה לאורך זמן.</p>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="back-pain-condition-card">
+        <div class="back-pain-condition-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div class="back-pain-condition-content">
+          <h3 class="back-pain-condition-title">כאב גב כרוני</h3>
+          <p>כאב המלווה את המטופל לאורך חודשים ושנים, לעיתים ללא סיבה ברורה בבדיקות הדמיה. הרפואה הסינית מציעה מסלול טיפולי הוליסטי הכולל גוף ונפש יחד.</p>
+        </div>
+      </article>
+
+    </div>
+    <!-- End Grid -->
+
+    <!-- Bottom Summary Bar -->
+    <div class="back-pain-conditions-summary">
+      <svg data-no-icon-edit="true" aria-hidden="true" class="back-pain-conditions-summary-leaf" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <path d="M12 22c0 0-8-5-8-12a8 8 0 0 1 16 0c0 7-8 12-8 12z"></path>
+        <path d="M12 10v12"></path>
+      </svg>
+      <p>האבחון ברפואה הסינית מתחשב הן באופי הכאב — חד, עמום, שורף או מקרין — והן בהרגלי היומיום, רמת הפעילות, איכות השינה ורמת הלחץ הנפשי. כך נבנה מסלול טיפולי אישי ומדויק לכל מטופל.</p>
+    </div>
+
+  </div>
+
+  <!-- Decorative botanical motif -->
+  <svg class="back-pain-conditions-deco-branch" data-no-icon-edit="true" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" fill="none">
+    <path d="M180 140 C160 110, 140 90, 100 70 C80 60, 50 55, 30 40" stroke="#7A8B63" stroke-width="1.5" stroke-linecap="round"></path>
+    <path d="M100 70 C90 50, 80 30, 95 10" stroke="#7A8B63" stroke-width="1.2" stroke-linecap="round"></path>
+    <path d="M130 95 C145 80, 165 75, 175 60" stroke="#7A8B63" stroke-width="1.2" stroke-linecap="round"></path>
+    <path d="M70 80 C55 65, 40 65, 25 55" stroke="#7A8B63" stroke-width="1" stroke-linecap="round"></path>
+    <ellipse cx="95" cy="10" rx="6" ry="9" transform="rotate(-20 95 10)" fill="#7A8B63" opacity="0.4"></ellipse>
+    <ellipse cx="175" cy="60" rx="5" ry="8" transform="rotate(30 175 60)" fill="#7A8B63" opacity="0.35"></ellipse>
+    <ellipse cx="25" cy="55" rx="5" ry="7" transform="rotate(-10 25 55)" fill="#7A8B63" opacity="0.3"></ellipse>
+  </svg>
+
+</section>
+
+<section class="back-pain-benefits-section" data-layout-spec="טיפול בכאב גב-benefits" dir="rtl">
+  <div class="back-pain-benefits-container">
+
+    <!-- Right Column: Image -->
+    <div class="back-pain-benefits-image-col">
+      <div class="back-pain-benefits-image-wrapper">
+        <img data-context="A serene Traditional Chinese Medicine treatment room in Kfar Saba, Israel. A practitioner gently places acupuncture needles along a patient" s="" lower="" back="" while="" the="" patient="" lies="" comfortably="" on="" a="" treatment="" table="" draped="" in="" soft="" linen.="" warm="" natural="" light="" filters="" through="" sheer="" curtains.="" mood="" is="" calm,="" professional,="" and="" reassuring.="" neutral="" tones="" —="" cream,="" sage,="" terracotta="" accents.="" no="" clinical="" harshness.'="" width="520" height="680" src="/assets/section-benefits-back-pain-benefits-image-1.webp" alt="טיפול דיקור סיני לכאב גב במרכז לרפואה סינית בכפר סבא">
+        <!-- Decorative leaf medallion -->
+        <svg class="back-pain-benefits-leaf-deco" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="56" stroke="#7A8B63" stroke-width="1.2" fill="none" opacity="0.18"></circle>
+          <path d="M60 30 C60 30 45 48 60 60 C75 48 60 30 60 30Z" stroke="#7A8B63" stroke-width="1.2" fill="none" opacity="0.22"></path>
+          <path d="M60 60 C60 60 38 68 42 84 C56 82 60 60 60 60Z" stroke="#7A8B63" stroke-width="1.2" fill="none" opacity="0.22"></path>
+          <path d="M60 60 C60 60 82 68 78 84 C64 82 60 60 60 60Z" stroke="#7A8B63" stroke-width="1.2" fill="none" opacity="0.22"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Left Column: Text + Benefit Cards -->
+    <div class="back-pain-benefits-content-col">
+      <span class="back-pain-benefits-eyebrow">למה רפואה סינית לכאב גב?</span>
+      <h2 class="back-pain-benefits-heading">גישה שמטפלת בשורש הכאב, לא רק בסימפטום</h2>
+      <p class="back-pain-benefits-intro">כאב גב תחתון הוא אחד הגורמים המובילים לפגיעה באיכות החיים. בניגוד לטיפולים קונבנציונליים שמתמקדים בהקלה זמנית, הרפואה הסינית המסורתית מאתרת את מקור הכאב ומטפלת בו לעומק — תוך שיפור זרימת האנרגיה, הפחתת דלקת ושיקום רקמות.</p>
+      <p class="back-pain-benefits-intro">הטיפולים במרכז משלבים דיקור סיני, עיסוי טואינא ורפואת צמחים בהתאמה אישית מלאה לכל מטופל ומטופלת.</p>
+
+      <!-- 2x2 Benefit Cards Grid -->
+      <div class="back-pain-benefits-grid">
+
+        <article class="back-pain-benefit-card">
+          <div class="back-pain-benefit-card-accent" style="background: var(--secondary);">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path><path d="M12 8v4l3 3"></path></svg>
+          </div>
+          <div class="back-pain-benefit-card-body">
+            <h3 class="back-pain-benefit-card-title">הקלה מהירה ומתמשכת</h3>
+            <p>דיקור סיני מפחית כאב גב תחתון כבר מהטיפולים הראשונים, ומחזק את השפעתו לאורך זמן באמצעות סדרת טיפולים ממוקדת.</p>
+          </div>
+        </article>
+
+        <article class="back-pain-benefit-card">
+          <div class="back-pain-benefit-card-accent" style="background: var(--accent);">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </div>
+          <div class="back-pain-benefit-card-body">
+            <h3 class="back-pain-benefit-card-title">ללא תרופות וללא ניתוח</h3>
+            <p>הטיפול טבעי לחלוטין ואינו כולל תרופות כימיות. מתאים גם למי שמחפש חלופה לפני שיקול ניתוחי או לצד טיפול רפואי קיים.</p>
+          </div>
+        </article>
+
+        <article class="back-pain-benefit-card">
+          <div class="back-pain-benefit-card-accent" style="background: var(--primary);">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="back-pain-benefit-card-body">
+            <h3 class="back-pain-benefit-card-title">טיפול אישי ומותאם</h3>
+            <p>כל תוכנית טיפול נבנית בהתאמה מלאה לאנמנזה האישית, לאורח החיים ולסוג הכאב — בין אם מדובר בפריצת דיסק, בניוון סחוס או במתיחת שרירים.</p>
+          </div>
+        </article>
+
+        <article class="back-pain-benefit-card">
+          <div class="back-pain-benefit-card-accent" style="background: var(--secondary);">
+            <svg data-element-type="icon" data-icon-type="svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <div class="back-pain-benefit-card-body">
+            <h3 class="back-pain-benefit-card-title">שיפור תפקוד יומיומי</h3>
+            <p>מטופלים רבים מדווחים על שיפור משמעותי ביכולת התנועה, בשינה ובאיכות החיים הכללית — ולא רק בהפחתת הכאב עצמו.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom sage separator -->
+  <div class="back-pain-benefits-separator" aria-hidden="true"></div>
+
+</section>
+
+<section class="back-pain-reviews-section" data-layout-spec="טיפול בכאב גב-reviews" dir="rtl">
+  <!-- Decorative background wash -->
+  <div class="bpr-bg-wash" aria-hidden="true"></div>
+
+  <!-- Decorative botanical motif -->
+  <svg class="bpr-botanical-motif" aria-hidden="true" data-no-icon-edit="true" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="90" cy="90" r="70" fill="none" stroke="#8AA8B5" stroke-width="1.5" opacity="0.18"></circle>
+    <path d="M90,90 Q110,60 130,50 Q120,75 105,90" fill="none" stroke="#8AA8B5" stroke-width="1.8" opacity="0.18"></path>
+    <path d="M90,90 Q65,65 55,45 Q75,68 90,90" fill="none" stroke="#8AA8B5" stroke-width="1.8" opacity="0.18"></path>
+    <path d="M90,90 Q90,55 90,30" fill="none" stroke="#8AA8B5" stroke-width="1.5" opacity="0.14"></path>
+    <ellipse cx="130" cy="50" rx="14" ry="8" fill="#8AA8B5" opacity="0.10" transform="rotate(-30 130 50)"></ellipse>
+    <ellipse cx="55" cy="45" rx="14" ry="8" fill="#8AA8B5" opacity="0.10" transform="rotate(30 55 45)"></ellipse>
+    <ellipse cx="90" cy="30" rx="10" ry="7" fill="#8AA8B5" opacity="0.10"></ellipse>
+  </svg>
+
+  <div class="bpr-container">
+    <!-- Section header -->
+    <div class="bpr-header">
+      <h2 class="bpr-title">מה אומרים המטופלים שלנו</h2>
+      <p class="bpr-subtitle">כאבי גב ועמוד שדרה משפיעים על כל היבטי החיים. אנו שמחים לשתף בחוויות של מטופלים שמצאו הקלה ושיפור משמעותי לאחר טיפול ברפואה סינית מסורתית.</p>
+    </div>
+
+    <!-- Reviews grid -->
+    <div class="bpr-grid">
+
+      <!-- Review card 1 -->
+      <article class="bpr-card">
+        <div class="bpr-card-inner">
+          <div class="bpr-stars" aria-label="דירוג 5 כוכבים">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+          </div>
+          <blockquote class="bpr-quote">
+            <span class="bpr-quote-mark" aria-hidden="true">“</span>
+            סבלתי מכאבי גב תחתון כרוניים כבר שלוש שנים. אחרי שישה טיפולי דיקור, הכאב ירד בצורה דרמטית ואני חוזרת לחיים שאהבתי.
+          </blockquote>
+          <p class="bpr-review-text">הגעתי למרכז אחרי שניסיתי הכל — פיזיותרפיה, כירופרקטיקה, תרופות. הגישה ההוליסטית כאן שונה לחלוטין. הרגשתי שרואים אותי כאדם שלם ולא רק כסימפטום. ממליצה בחום לכל מי שמחפש פתרון אמיתי לכאב גב.</p>
+          <footer class="bpr-card-footer">
+            <div class="bpr-avatar" aria-hidden="true">מ</div>
+            <div class="bpr-identity">
+              <span class="bpr-name">מיכל ר.</span>
+              <span class="bpr-detail">כאב גב תחתון כרוני · כפר סבא</span>
+            </div>
+          </footer>
+        </div>
+      </article>
+
+      <!-- Review card 2 -->
+      <article class="bpr-card">
+        <div class="bpr-card-inner">
+          <div class="bpr-stars" aria-label="דירוג 5 כוכבים">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+          </div>
+          <blockquote class="bpr-quote">
+            <span class="bpr-quote-mark" aria-hidden="true">“</span>
+            פציעת ספורט שהשביתה אותי חודשים — חזרתי לאימונים מלאים תוך שמונה שבועות. הטיפול כאן הוא ברמה אחרת לגמרי.
+          </blockquote>
+          <p class="bpr-review-text">כרץ מרתון, פציעת גב ועמוד שדרה הייתה עלולה לסיים את העונה שלי. הצוות כאן הבין בדיוק מה הגוף שלי צריך — שילוב של דיקור, צמחי מרפא וייעוץ תזונתי. חזרתי לרוץ מהר יותר ממה שציפיתי.</p>
+          <footer class="bpr-card-footer">
+            <div class="bpr-avatar" aria-hidden="true">ד</div>
+            <div class="bpr-identity">
+              <span class="bpr-name">דניאל כ.</span>
+              <span class="bpr-detail">פציעת ספורט · רעננה</span>
+            </div>
+          </footer>
+        </div>
+      </article>
+
+      <!-- Review card 3 -->
+      <article class="bpr-card">
+        <div class="bpr-card-inner">
+          <div class="bpr-stars" aria-label="דירוג 5 כוכבים">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10 1l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 13.27l-4.77 2.44.91-5.32L2.27 6.62l5.34-.78z" fill="#C46B4E"></path></svg>
+          </div>
+          <blockquote class="bpr-quote">
+            <span class="bpr-quote-mark" aria-hidden="true">“</span>
+            כאב הדיסק שלי לא נעלם לגמרי, אבל הטיפולים כאן החזירו לי את האפשרות לתפקד, לישון ולהיות נוכחת לילדים שלי.
+          </blockquote>
+          <p class="bpr-review-text">לאחר שנה של כאבי גב ורגל בעקבות בקע דיסק, מצאתי סוף סוף מקום שמעניק טיפול אמיתי ולא רק הקלה זמנית. הגישה הסינית מסתכלת על שורש הבעיה. כבר לא תלויה בכדורי כאב מדי יום.</p>
+          <footer class="bpr-card-footer">
+            <div class="bpr-avatar" aria-hidden="true">ש</div>
+            <div class="bpr-identity">
+              <span class="bpr-name">שירה מ.</span>
+              <span class="bpr-detail">בקע דיסק · הוד השרון</span>
+            </div>
+          </footer>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Closing CTA row -->
+    <div class="bpr-cta-row">
+      <p class="bpr-cta-text">מוכנים לצעד הראשון לחיים ללא כאב? שיחת ייעוץ ראשונה ללא עלות ומחויבות.</p>
+      <a href="/contact" class="bpr-cta-btn btn-pill">לתיאום שיחת ייעוץ חינם</a>
+    </div>
+  </div>
+</section>
+
+<section class="back-pain-faq-section" data-layout-spec="טיפול בכאב גב-faq" dir="rtl">
+  <div class="back-pain-faq-container">
+
+    <!-- Decorative botanical motif -->
+    <svg class="back-pain-faq-decor" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M160,20 Q120,60 100,100 Q80,140 60,180" stroke="#7A8B63" stroke-width="1.5" fill="none" opacity="0.12"></path>
+      <path d="M160,20 Q140,55 110,70 Q80,85 60,80" stroke="#7A8B63" stroke-width="1.2" fill="none" opacity="0.10"></path>
+      <path d="M140,40 Q115,75 95,110 Q75,145 55,175" stroke="#7A8B63" stroke-width="1" fill="none" opacity="0.08"></path>
+      <path d="M140,40 Q125,65 100,75 Q75,85 55,78" stroke="#7A8B63" stroke-width="0.8" fill="none" opacity="0.07"></path>
+    </svg>
+
+    <!-- Section Header -->
+    <header class="back-pain-faq-header">
+      <h2 class="back-pain-faq-title">שאלות נפוצות על טיפול בכאב גב</h2>
+      <p class="back-pain-faq-intro">כאב גב הוא אחת התלונות הנפוצות ביותר שאנו מטפלים בהן במרכז לרפואה סינית בכפר סבא. ריכזנו עבורכם את השאלות שעולות לרוב לפני הטיפול הראשון, כדי שתגיעו מוכנים, רגועים ומלאי ביטחון.</p>
+    </header>
+
+    <!-- FAQ Cards -->
+    <div class="back-pain-faq-list">
+
+      <article class="back-pain-faq-card">
+        <h3 class="back-pain-faq-question">האם דיקור סיני יכול לעזור לכאב גב תחתון כרוני?</h3>
+        <p class="back-pain-faq-answer">כן. דיקור סיני הוכח כיעיל במיוחד לטיפול בכאב גב תחתון כרוני, כולל מצבים של בקע דיסק, דלקת מפרקים, ושחיקת סחוס. הטיפול פועל על ידי שחרור מתח שרירי, הפחתת דלקת, ועידוד תהליכי ריפוי טבעיים בגוף. רוב המטופלים מדווחים על שיפור משמעותי לאחר סדרת טיפולים קצרה.</p>
+      </article>
+
+      <article class="back-pain-faq-card">
+        <h3 class="back-pain-faq-question">כמה טיפולים נדרשים עד שמרגישים שיפור?</h3>
+        <p class="back-pain-faq-answer">הדבר תלוי בחומרת הבעיה ובמשך הזמן שהיא קיימת. במצבים חריפים ניתן לחוש הקלה כבר לאחר טיפול אחד עד שלושה. כאבים כרוניים ומורכבים יותר, כגון כאב גב הקשור לשחיקת עמוד שדרה, עשויים לדרוש סדרה של שישה עד שנים עשר טיפולים לקבלת תוצאה יציבה ומתמשכת. בפגישת הייעוץ הראשונה נבנה עבורכם תוכנית טיפול אישית ומדויקת.</p>
+      </article>
+
+      <article class="back-pain-faq-card">
+        <h3 class="back-pain-faq-question">האם הטיפול כואב? מה מרגישים במהלכו?</h3>
+        <p class="back-pain-faq-answer">המחטים שבהן אנו משתמשים דקות ביותר — דקות הרבה יותר ממחטי הזרקה רגילות. רוב המטופלים חווים תחושת עקצוץ קל, חמימות נעימה, או כבדות מקומית, שהן תגובות רצויות המעידות על פעילות הטיפול. כאב ממשי הוא נדיר ביותר. רוב האנשים מגלים לתדהמתם שהטיפול מרגיש מרגיע ומשחרר הרבה יותר ממה שציפו.</p>
+      </article>
+
+      <article class="back-pain-faq-card">
+        <h3 class="back-pain-faq-question">האם ניתן לשלב רפואה סינית עם טיפולים קונבנציונליים?</h3>
+        <p class="back-pain-faq-answer">בהחלט. הרפואה הסינית משתלבת היטב עם פיזיותרפיה, אורתופדיה, וטיפול תרופתי. אנו עובדים בגישה משלימה — לא מחליפה — ומעודדים שיתוף פעולה עם הצוות הרפואי שמלווה אתכם. במקרים רבים, שילוב הטיפולים מאפשר הפחתת תלות בתרופות משככות כאב לאורך זמן.</p>
+      </article>
+
+      <article class="back-pain-faq-card">
+        <h3 class="back-pain-faq-question">מה ההבדל בין דיקור לבין טיפולי גוף אחרים שמציע המרכז?</h3>
+        <p class="back-pain-faq-answer">דיקור סיני הוא אחד מכלי הטיפול המרכזיים, אך המרכז מציע גם עיסוי טיפולי סיני (טואינה), צמחי מרפא סיניים, ודיקור אוזן. לכל שיטה יתרונות ייחודיים, ובמקרים רבים נשלב כמה גישות בטיפול אחד כדי להשיג תוצאה מיטבית. הבחירה בשיטה המתאימה נקבעת לאחר הערכה מקיפה של מצבכם הבריאותי.</p>
+      </article>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="back-pain-faq-cta-wrapper">
+      <a href="/contact" class="back-pain-faq-cta btn-pill">לייעוץ ראשוני ללא התחייבות ←</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="back-pain-consultation-section" data-layout-spec="טיפול בכאב גב-consultation" dir="rtl">
+  <!-- Botanical decorative SVG -->
+  <svg class="bpc-botanical-bg" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#F8F4EF" stroke-width="1.2" opacity="0.07">
+      <path d="M20,280 Q60,200 40,140 Q20,80 80,40"></path>
+      <path d="M40,260 Q90,210 70,160 Q50,110 100,80"></path>
+      <path d="M80,40 Q120,20 140,60 Q160,100 130,120"></path>
+      <path d="M100,80 Q140,60 155,95 Q170,130 145,148"></path>
+      <path d="M40,140 Q70,130 85,155 Q100,180 78,195"></path>
+      <path d="M60,170 Q85,158 95,178 Q105,198 88,208"></path>
+      <ellipse cx="140" cy="55" rx="18" ry="10" transform="rotate(-30 140 55)"></ellipse>
+      <ellipse cx="160" cy="90" rx="15" ry="8" transform="rotate(20 160 90)"></ellipse>
+      <ellipse cx="88" cy="150" rx="14" ry="7" transform="rotate(-15 88 150)"></ellipse>
+    </g>
+  </svg>
+
+  <!-- Right botanical decoration -->
+  <svg class="bpc-botanical-right" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#F8F4EF" stroke-width="1.2" opacity="0.06">
+      <path d="M280,380 Q240,300 260,220 Q280,140 220,80"></path>
+      <path d="M260,360 Q210,290 230,220 Q250,150 200,100"></path>
+      <path d="M220,80 Q180,50 160,90 Q140,130 170,150"></path>
+      <path d="M200,100 Q165,75 148,108 Q131,141 158,162"></path>
+      <ellipse cx="165" cy="72" rx="18" ry="10" transform="rotate(30 165 72)"></ellipse>
+      <ellipse cx="145" cy="105" rx="15" ry="8" transform="rotate(-20 145 105)"></ellipse>
+    </g>
+  </svg>
+
+  <div class="bpc-container">
+    <div class="bpc-panel">
+      <!-- Glow orb -->
+      <div class="bpc-glow-orb" aria-hidden="true"></div>
+
+      <div class="bpc-content">
+        <!-- Badge -->
+        <div class="bpc-badge">
+          <svg data-element-type="icon" data-icon-type="svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path>
+            <path d="M12 6v6l4 2"></path>
+          </svg>
+          <span>ייעוץ ראשוני ללא עלות</span>
+        </div>
+
+        <h2 class="bpc-heading">מוכנים להתחיל את הדרך לחיים ללא כאב?</h2>
+
+        <p class="bpc-subtext">הצוות שלנו מלווה מטופלים עם כאבי גב, פריצות דיסק ובעיות אורתופדיות מזה שנים רבות. בשיחת ייעוץ קצרה נבין את המצב שלך ונציע תוכנית טיפול מותאמת אישית — ללא התחייבות וללא לחץ.</p>
+
+        <div class="bpc-trust-row">
+          <div class="bpc-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>טיפול מותאם אישית</span>
+          </div>
+          <div class="bpc-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>ניסיון של מעל 15 שנה</span>
+          </div>
+          <div class="bpc-trust-item">
+            <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>אלפי מטופלים מרוצים</span>
+          </div>
+        </div>
+
+        <div class="bpc-cta-row">
+          <a href="tel:[business_phone]" class="bpc-btn-primary">
+            <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.06 1.18 2 2 0 012 .02h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path>
+            </svg>
+            התקשרו עכשיו לייעוץ חינם
+          </a>
+          <a href="/contact" class="bpc-btn-outline">
+            <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
+            </svg>
+            השאירו פרטים ונחזור אליכם
+          </a>
+        </div>
+
+        <p class="bpc-disclaimer">
+          <svg data-element-type="icon" data-icon-type="svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block; vertical-align:middle; margin-inline-end:5px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          שיחת הייעוץ אינה מחייבת — נשמח לענות על כל שאלה ולהתאים פתרון לצרכים שלך
+        </p>
+      </div>
+    </div>
+  </div>
+</section></main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-main">
+    <div class="footer-container">
+      <div class="footer-grid">
+
+        <!-- Column 1: Company Info -->
+        <div class="footer-col footer-col--brand">
+          <div class="footer-logo-wrap">
+            <img src="/assets/logo.webp" alt="המרכז לרפואה סינית בכפר סבא" class="logo" data-element-type="image" data-element-id="img-1778009011727-1hzy1ph8o" data-zappy-footer-image="true" >
+          </div>
+          <p class="footer-tagline">המרכז לרפואה סינית בכפר סבא מציע טיפולים מקצועיים ומותאמים אישית לכאב, פוריות, בריאות האישה ורווחה כללית — מתוך גישה הוליסטית, חמה ומבוססת ניסיון.</p>
+          <div class="footer-social">
+            <a href="https://facebook.com/dikur.sini.yapani" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com/dikursini" aria-label="Instagram"><i class="fab fa-instagram" data-element-type="icon" data-element-id="icon-1778009011724-3yq6p64rw" data-icon-type="fontawesome"></i></a>
+            <a href="https://wa.me/972544339627" aria-label="WhatsApp"><i class="fab fa-whatsapp" data-element-type="icon" data-element-id="icon-1778009011724-y6mpkjsm3" data-icon-type="fontawesome"></i></a>
+          </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div class="footer-col footer-col--links">
+          <h3 class="footer-heading">ניווט מהיר</h3>
+          <ul class="footer-nav">
+            <li><a href="/">בית</a></li>
+            <li class="nav-dropdown"><a href="/pain-orthopedics" class="dropdown-toggle">כאב ואורתופדיה <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:inline-block;vertical-align:middle;margin-right:3px"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a><ul class="nav-submenu"><li><a href="/frozen-shoulder">כתף קפואה</a></li><li><a href="/back-pain">כאב גב</a></li></ul></li>
+            <li><a href="/fertility-womens-health">פוריות ובריאות האישה</a></li>
+            <li><a href="/stress-children">סטרס, תינוקות וילדים</a></li>
+            <li><a href="/contact">צור קשר</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact Info -->
+        <div class="footer-col footer-col--contact">
+          <h3 class="footer-heading">יצירת קשר</h3>
+          <ul class="footer-contact">
+            <li>
+              <span class="contact-icon"><i class="fas fa-envelope" data-element-type="icon" data-element-id="icon-1778009011724-6oved65b6" data-icon-type="fontawesome"></i></span>
+              <span class="contact-text"><a href="mailto:ajreri@gmail.com">ajreri@gmail.com</a></span>
+            </li>
+            <li>
+              <span class="contact-icon"><i class="fas fa-phone" data-element-type="icon" data-element-id="icon-1778009011725-ej1le2wgy" data-icon-type="fontawesome"></i></span>
+              <span class="contact-text"><a href="tel:054-4339627">054-4339627</a></span>
+            </li>
+            <li><a href="/" style="display:flex;align-items:flex-start;gap:inherit"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+              <span class="contact-text">תל חי 40א, כפר סבא, ישראל</span></a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Hours / Extra -->
+        <div class="footer-col footer-col--hours">
+          <h3 class="footer-heading">שעות פעילות</h3>
+          <ul class="footer-hours">
+            <li><a href="/" ><span class="hours-day">שני, ורביעי&nbsp;</span><span class="hours-time">08:00 – 20:00</span></a></li>
+            <li><a href="/" ><span class="hours-day">חמישי</span><span class="hours-time">08:30 – 18:00</span></a></li>
+            <li><a href="/" ><span class="hours-day">ראשון, שלישי ושבת&nbsp;</span><span class="hours-time">סגור</span></a></li>
+          </ul>
+          <p class="zappy-editable"><a href="/contact" class="footer-cta">קבע תור עכשיו</a>
+        </p></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">© 2026 המרכז לרפואה סינית בכפר סבא. כל הזכויות שמורות.</p>
+        <div class="footer-legal">
+          <a href="/privacy">מדיניות פרטיות</a>
+          <span class="footer-divider">|</span>
+          <a href="/terms">תנאי שימוש</a>
+          <span class="footer-divider">|</span>
+          <a href="/accessibility">נגישות</a>
+          <span class="footer-divider">|</span>
+          <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/972544339627" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
