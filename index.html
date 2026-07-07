@@ -161,26 +161,31 @@
       // Track button clicks (counted as actions)
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         var button = target.tagName === 'BUTTON' ? target : target.closest('button');
-        trackEvent('click', {
+        var clickMeta = {
           element: 'button',
           text: button.textContent.trim().substring(0, 100),
           id: button.id || null,
           class: button.className || null
-        });
+        };
+        
+        trackEvent('click', clickMeta);
       }
       
       // Track link clicks (navigation - not counted as actions)
       else if (target.tagName === 'A' || target.closest('a')) {
         var link = target.tagName === 'A' ? target : target.closest('a');
-        trackEvent('navigation', {
+        var navMeta = {
           element: 'link',
           text: link.textContent.trim().substring(0, 100),
           href: link.href,
           external: link.hostname !== window.location.hostname
-        });
+        };
+        
+        trackEvent('navigation', navMeta);
       }
     }, true);
   }
+  
   
   // Track form submissions
   if (config.trackFormSubmissions) {
@@ -246,6 +251,7 @@
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
     <link rel="stylesheet" href="/styles.css">
+    <script>window.ZAPPY_WEBSITE_ID = "59adda24-7160-4b3e-b5ec-c8cdf778dfae"; window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
 
     <style id="zappy-dropdown-submenu-styles">
       /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
@@ -800,7 +806,7 @@
     <div class="index-hero-card">
       <p><span class="index-hero-badge" style="color: rgb(46, 42, 38) !important;">רפואה סינית מתקדמת • כפר סבא</span>
       </p><h1 class="index-hero-h1">הרפואה הסינית שמחזירה אתכם לחיים</h1>
-      <h3 class="index-hero-subtitle" >המרכז המוביל בכפר סבא לטיפול בעזרת רפואה סינית ודיקור בתחומים- כאב, פריון הגבר ובריאות האישה, סטרס וילדים — עם ליווי אישי מהייעוץ הראשון ועד ההחלמה</h3>
+      <h3 class="index-hero-subtitle" >המרכז המוביל בכפר סבא לטיפול בעזרת רפואה סינית ודיקור בתחומים- מיגרנות, כאב, פריון הגבר ובריאות האישה, סטרס וילדים — עם ליווי אישי מהייעוץ הראשון ועד ההחלמה</h3>
       <div class="index-hero-ctas">
         <a href="/contact" class="index-hero-btn-primary" style="color: rgb(0, 0, 0) !important;" data-element-type="button" data-element-id="btn-1778009011717-ni1p88yc7" data-native-element="true">לתיאום ייעוץ חינם <i class="fa-solid fa-arrow-left"></i></a>
         <a href="/treatments" class="index-hero-btn-secondary" style="color: rgb(46, 42, 38) !important;" data-element-type="button" data-element-id="btn-1778009011717-1qsorw5p4" data-native-element="true">לכל הטיפולים</a>
