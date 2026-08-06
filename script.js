@@ -1218,6 +1218,59 @@ window.onload = function() {
   } catch (e) {}
 })();
 
+/* ZAPPY_CUSTOM_JS_START:c3a92031950d */
+(function () {
+  function __zappyCustomInit() {
+    try {
+// הזזת תת-תפריט מחוץ ל-navbar כך שלא יסתתר מאחורי stacking contexts
+(function() {
+  const dropdown = document.querySelector('.navbar .nav-dropdown');
+  if (!dropdown) return;
+  
+  const submenu = dropdown.querySelector('.nav-submenu');
+  if (!submenu) return;
+  
+  // להזיז את תת-התפריט לסוף ה-body
+  document.body.appendChild(submenu);
+  
+  // CSS ישיר על האלמנט - לשלוט במיקום מול ה-navbar
+  submenu.style.position = 'fixed';
+  submenu.style.zIndex = '99999';
+  submenu.style.display = 'none';
+  
+  // כשעומדים עם העכבר על הפריט, לחשב מיקום ולהציג
+  dropdown.addEventListener('mouseenter', function() {
+    const rect = dropdown.getBoundingClientRect();
+    submenu.style.top = rect.bottom + 4 + 'px';
+    submenu.style.right = (window.innerWidth - rect.right) + 'px';
+    submenu.style.display = 'block';
+  });
+  
+  dropdown.addEventListener('mouseleave', function() {
+    submenu.style.display = 'none';
+  });
+  
+  // גם תת-התפריט עצמו נשאר פתוח כשעומדים עליו
+  submenu.addEventListener('mouseenter', function() {
+    submenu.style.display = 'block';
+  });
+  
+  submenu.addEventListener('mouseleave', function() {
+    submenu.style.display = 'none';
+  });
+})();
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.warn) { console.warn('[zappy-custom-js]', e); }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __zappyCustomInit);
+  } else {
+    __zappyCustomInit();
+  }
+})();
+/* ZAPPY_CUSTOM_JS_END:c3a92031950d */
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
