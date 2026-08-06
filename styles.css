@@ -13803,6 +13803,23 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   border-top: 1px solid var(--border-light, #DDD2C6) !important;
   transform: rotate(45deg) !important;
 }
+
+.navbar .nav-dropdown .nav-submenu {
+  z-index: 9999 !important;
+}
+
+.navbar {
+  z-index: 1000 !important;
+  position: relative !important;
+}
+
+.navbar .nav-menu {
+  overflow: visible !important;
+}
+
+.navbar .nav-container {
+  overflow: visible !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
