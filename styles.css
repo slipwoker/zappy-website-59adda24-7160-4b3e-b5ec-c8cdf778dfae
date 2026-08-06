@@ -13820,6 +13820,23 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .navbar .nav-container {
   overflow: visible !important;
 }
+
+.navbar .nav-container {
+  z-index: 1000 !important;
+}
+
+.navbar {
+  z-index: 1000 !important;
+  position: relative !important;
+}
+
+.navbar .nav-dropdown .nav-submenu {
+  z-index: 99999 !important;
+}
+
+.navbar .nav-brand {
+  position: static !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
