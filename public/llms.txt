@@ -37,6 +37,10 @@ https://example.com/back-pain
 https://example.com/tuina-therapy
 המרכז לרפואה סינית בכפר סבא - טיפול טווינא לכאבי גב, ספורטאים ואיזון הורמונלי
 
+### אודות המרכז לרפואה סינית בכפר סבא
+https://example.com/about
+המרכז לרפואה סינית בכפר סבא - אודות המרכז לרפואה סינית בכפר סבא
+
 ## Legal & Policy
 
 ### Privacy Policy
